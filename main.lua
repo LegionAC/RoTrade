@@ -12,6 +12,7 @@ passrate = 0.5
 # should be able to calculate demand itself if need be.
 # should be able to, if given data, know what trades to shy away from depending on current market trends e.g faces not doing well.
 # possibly make a rap limit (not that trade values with the bot have gotten that high yet) to stop the bot from being able to make catastrophic errors  
+# update readability, name attributes rather than just using the numbers
 
 def overpay(offer, receive):
     offerPay = 0
