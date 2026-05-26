@@ -116,6 +116,8 @@ def overpay(offerInfo, receiveInfo):
         currentInfo = offerInfo[item]
         if currentInfo["Projected"] == 1 and not currentInfo["Value"] == -1:
             offerPay += currentInfo["Value"]
+        elif currentInfo["Value"] != -1:
+            offerPay += currentInfo["Value"]
         else:
             offerPay += currentInfo["RAP"]
     
@@ -125,6 +127,8 @@ def overpay(offerInfo, receiveInfo):
             receivePay += currentInfo["Value"]
         elif currentInfo["Projected"] == 1:
             receivePay += -math.inf
+        elif currentInfo["Value"] != -1:
+            receivePay += currentInfo["Value"]
         else:
             receivePay += currentInfo["RAP"]
 
@@ -134,16 +138,25 @@ def eval_offer(item, offer_num, accept):
     accept = 0
 
     if item["Trend"] == 0:
-        accept += (0.15 * (1 - accept)) / offer_num
+        accept += 0.15 / offer_num
     elif item["Trend"] == 1:
-        accept += (0.05 * (1 - accept)) / offer_num
+        accept += 0.05 / offer_num
     elif item["Trend"] == 2:
-        accept -= (0.1 * (1 - accept)) / offer_num
+        accept -= 0.1/ offer_num
     elif item["Trend"] == 3:
-        accept -= (0.25 * (1 - accept)) / offer_num
+        accept -= 0.25 / offer_num
     
     if item["Rare"] == 1:
-        accept -= (0.15 * (1 - accept)) / offer_num
+        accept -= 0.15 / offer_num
+
+    if item["Demand"] == 0:
+        accept += 0.25
+    elif item["Demand"] == 1:
+        accept += 0.15
+    elif item["Demand"] == 3:
+        accept -= 0.15
+    elif item["Demand"] == 4:
+        accept -= 0.25
 
     #if hyped == 1:
         #accept -= (0.25 * (1 - accept)) / offer_num
@@ -152,16 +165,25 @@ def eval_offer(item, offer_num, accept):
 
 def eval_receive(item, receive_num, accept):
     if item["Trend"] == 0:
-        accept -= (0.15 * (1 - accept)) / receive_num
+        accept -= 0.15 / receive_num
     elif item["Trend"] == 1:
-        accept -= (0.05 * (1 - accept)) / receive_num
+        accept -= 0.05 / receive_num
     elif item["Trend"] == 2:
-        accept += (0.1 * (1 - accept)) / receive_num
+        accept += 0.1 / receive_num
     elif item["Trend"] == 3:
-        accept += (0.25 * (1 - accept)) / receive_num
+        accept += 0.25 / receive_num
     
     if item["Rare"] == 1:
-        accept += (0.15 * (1 - accept)) / receive_num
+        accept += 0.15 / receive_num
+
+    if item["Demand"] == 0:
+        accept -= 0.25
+    elif item["Demand"] == 1:
+        accept -= 0.15
+    elif item["Demand"] == 3:
+        accept += 0.15
+    elif item["Demand"] == 4:
+        accept += 0.25
 
    #if hyped == 1:
         #accept += (0.25 * (1 - accept)) / receive_num
@@ -184,7 +206,12 @@ def accept_trade(offer, receive):
     if is_overpay[0] > 0:
         accept += is_overpay[2] / (is_overpay[1] + is_overpay[2])
     elif is_overpay[0] < 0:
-        accept -= is_overpay[2] / (is_overpay[1] + is_overpay[2])
+        accept -= is_overpay[1] / (is_overpay[1] + is_overpay[2])
+
+    if offer_num > receive_num and (is_overpay[0] >= (0.15 * is_overpay[1])):
+        accept += 0.15
+    elif receive_num > offer_num and (is_overpay[0] >= (0.15 * is_overpay[1])):
+        accept -= 0.15
 
     for item in range(offer_num):
         accept = eval_offer(offerInfo[item], offer_num, accept)
@@ -194,8 +221,8 @@ def accept_trade(offer, receive):
 
     return accept
 
-items_to_give = ["71484026", "11844853", "3798243238", "3798243238"]
-items_to_receive = ["928908332"]
+items_to_give = ["96103379"]
+items_to_receive = ["439945661", "1029025", "4390891467", "1365767"]
 
 trade_status = accept_trade(items_to_give, items_to_receive)
 
