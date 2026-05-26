@@ -1,4 +1,4 @@
-<ins><strong>RoTrade</strong></ins>
+<ins><strong>RoTrade V1.5</strong></ins>
 - Auto-trade bot for Roblox with configurable settings and market tracking.
 
 <ins>**Planned Features**</ins>
