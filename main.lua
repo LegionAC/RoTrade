@@ -45,26 +45,26 @@ def get_ADS(soup):
         value = card.select_one("h5.stat-data")
 
         if title and "ADS" in title.text:
-            return float(value.text.replace(",", "").strip()) if value else None
-    return -1
+            return float(value.text.replace(",", "").strip()) if value else "-1"
+    return "-1"
 
 def get_stat(soup, name):
     for box in soup.select(".value-stat-box"):
         header = box.select_one(".value-stat-header")
         value = box.select_one(".value-stat-data")
 
-        if header and header.text.strip() == name:
-            return value.text.strip() if value else None
+        if header and header.text.strip() == name and not value.text.strip() == "Not Assigned":
+            return value.text.strip() if value else "-1"
 
     for header in soup.select(".stat-header"):
-        if header.text.strip() == name:
+        if header.text.strip() == name and not value.text.strip() == "Not Assigned":
             value = header.find_next("h5", class_="stat-data") or header.find_next("div", class_="stat-data")
-            return value.text.strip() if value else None
+            return value.text.strip() if value else "-1"
 
-    return -1
+    return "-1"
 
-def itemQuery(items, item):
-    url = rolimons + items[item]
+def item_query(item):
+    url = rolimons + item
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
@@ -77,51 +77,72 @@ def itemQuery(items, item):
 
     soup = BeautifulSoup(resp.text, "html.parser")
 
-    ADS = get_ADS(soup)
-    RAP = int(get_stat(soup, "RAP").replace(",", ""))
+    ads = get_ADS(soup)
+    rap = int(get_stat(soup, "RAP").replace(",", ""))
     value = int(get_stat(soup, "Value").replace(",", ""))
-    demand = demand_dict[get_stat(soup, "Demand")]
-    trend = trend_dict[get_stat(soup, "Trend")]
-    projected = 1 if "SimpleSVGId" in str(soup) else -1
-    rare = 1 if "rare" in str(soup).lower() or "SimpleSVGId" in str(soup) else -1
+    demand = demand_dict.get(get_stat(soup, "Demand"), -1)
+    trend = trend_dict.get(get_stat(soup, "Trend"), -1)
+    api_entry = query.get("items", {}).get(item)
+    if api_entry:
+        hyped = 1 if len(api_entry) > 8 and api_entry[8] == 1 else -1
+        rare = 1 if len(api_entry) > 9 and api_entry[9] == 1 else -1
+        projected = 1 if len(api_entry) > 7 and api_entry[7] == 1 else -1
+    else:
+        projected = 1 if "SimpleSVGId" in str(soup) else -1
+        hyped = -1
+        rare = -1
 
-    return ADS, RAP, value, demand, projected, rare, trend
+    return {"ADS" : ads, "RAP" : rap, "Value" : value, "Demand" : demand, "Projected" : projected, "Rare" : rare, "Trend" : trend, "Hyped": hyped}
 
-def overpay(offer, receive):
+def generate_info(offer, receive):
+    offerInfo = {}
+    receiveInfo = {}
+
+    for item in range(len(offer)):
+       data = item_query(offer[item])
+       offerInfo[item] = data
+
+    for item in range(len(receive)):
+       data = item_query(receive[item])
+       receiveInfo[item] = data
+
+    return offerInfo, receiveInfo
+
+def overpay(offerInfo, receiveInfo):
     offerPay = 0
     receivePay = 0
 
-    for item in range(len(offer)):
-        ADS, RAP, value, demand, projected, rare, trend = itemQuery(offer, item)
-        if projected == 1 and not value == -1:
-            offerPay += value
+    for item in range(len(offerInfo)):
+        currentInfo = offerInfo[item]
+        if currentInfo["Projected"] == 1 and not currentInfo["Value"] == -1:
+            offerPay += currentInfo["Value"]
         else:
-            offerPay += RAP
+            offerPay += currentInfo["RAP"]
     
-    for item in range(len(receive)):
-        ADS, RAP, value, demand, projected, rare, trend = itemQuery(offer, item)
-        if projected == 1 and not value == -1:
-            receivePay += value
-        elif projected == 1:
+    for item in range(len(receiveInfo)):
+        currentInfo = receiveInfo[item]
+        if currentInfo["Projected"] == 1 and not currentInfo["Value"] == -1:
+            receivePay += currentInfo["Value"]
+        elif currentInfo["Projected"] == 1:
             receivePay += -math.inf
         else:
-            receivePay += RAP
+            receivePay += currentInfo["RAP"]
 
     return [receivePay - offerPay, offerPay, receivePay]
 
-def eval_offer(offer, item, offer_num, accept):
-    ADS, RAP, value, demand, projected, rare, trend = itemQuery(offer, item)
+def eval_offer(item, offer_num, accept):
+    accept = 0
 
-    if trend == 0:
+    if item["Trend"] == 0:
         accept += (0.15 * (1 - accept)) / offer_num
-    elif trend == 1:
+    elif item["Trend"] == 1:
         accept += (0.05 * (1 - accept)) / offer_num
-    elif trend == 2:
+    elif item["Trend"] == 2:
         accept -= (0.1 * (1 - accept)) / offer_num
-    elif trend == 3:
+    elif item["Trend"] == 3:
         accept -= (0.25 * (1 - accept)) / offer_num
     
-    if rare == 1:
+    if item["Rare"] == 1:
         accept -= (0.15 * (1 - accept)) / offer_num
 
     #if hyped == 1:
@@ -129,19 +150,17 @@ def eval_offer(offer, item, offer_num, accept):
 
     return accept
 
-def eval_receive(receive, item, receive_num, accept):
-    ADS, RAP, value, demand, projected, rare, trend = itemQuery(receive, item)
-
-    if trend == 0:
+def eval_receive(item, receive_num, accept):
+    if item["Trend"] == 0:
         accept -= (0.15 * (1 - accept)) / receive_num
-    elif trend == 1:
+    elif item["Trend"] == 1:
         accept -= (0.05 * (1 - accept)) / receive_num
-    elif trend == 2:
+    elif item["Trend"] == 2:
         accept += (0.1 * (1 - accept)) / receive_num
-    elif trend == 3:
+    elif item["Trend"] == 3:
         accept += (0.25 * (1 - accept)) / receive_num
     
-    if rare == 1:
+    if item["Rare"] == 1:
         accept += (0.15 * (1 - accept)) / receive_num
 
    #if hyped == 1:
@@ -155,7 +174,9 @@ def accept_trade(offer, receive):
 
     accept = 0
 
-    is_overpay = overpay(offer, receive)
+    offerInfo, receiveInfo = generate_info(offer, receive)
+
+    is_overpay = overpay(offerInfo, receiveInfo)
 
     if is_overpay[2] == -math.inf:
         return -math.inf
@@ -166,15 +187,15 @@ def accept_trade(offer, receive):
         accept -= is_overpay[2] / (is_overpay[1] + is_overpay[2])
 
     for item in range(offer_num):
-        accept = eval_offer(offer, item, offer_num, accept)
+        accept = eval_offer(offerInfo[item], offer_num, accept)
 
     for item in range(receive_num):
-        accept = eval_receive(receive, item, receive_num, accept)
+        accept = eval_receive(receiveInfo[item], receive_num, accept)
 
     return accept
 
-items_to_give = ["10159600649"]
-items_to_receive = ["16477149823"]
+items_to_give = ["71484026", "11844853", "3798243238", "3798243238"]
+items_to_receive = ["928908332"]
 
 trade_status = accept_trade(items_to_give, items_to_receive)
 
