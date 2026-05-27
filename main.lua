@@ -33,11 +33,16 @@ trend_dict = {
     "Fluctuating" : 4
 }
 
+custom_demand_map = {
+    "20573078" : 4
+}
+
 # needs to reward value more rather than reward RAP, RAP should be rewarded though less than value.
 # should be able to calculate demand itself if need be.
 # should be able to, if given data, know what trades to shy away from depending on current market trends e.g faces not doing well.
 # possibly make a rap limit (not that trade values with the bot have gotten that high yet) to stop the bot from being able to make catastrophic errors  
 # update readability, name attributes rather than just using the numbers
+# make it possible to determine demand if not assigned
 
 def get_ADS(soup):
     for card in soup.select(".card"):
@@ -81,6 +86,10 @@ def item_query(item):
     rap = int(get_stat(soup, "RAP").replace(",", ""))
     value = int(get_stat(soup, "Value").replace(",", ""))
     demand = demand_dict.get(get_stat(soup, "Demand"), -1)
+
+    if item in custom_demand_map:
+        demand = custom_demand_map[item]
+
     trend = trend_dict.get(get_stat(soup, "Trend"), -1)
     api_entry = query.get("items", {}).get(item)
     if api_entry:
@@ -135,58 +144,50 @@ def overpay(offerInfo, receiveInfo):
     return [receivePay - offerPay, offerPay, receivePay]
 
 def eval_offer(item, offer_num, accept):
-    accept = 0
-
     if item["Trend"] == 0:
-        accept += 0.15 / offer_num
+        accept += (accept * 0.15) / offer_num
     elif item["Trend"] == 1:
-        accept += 0.05 / offer_num
+        accept += (accept * 0.05) / offer_num
     elif item["Trend"] == 2:
-        accept -= 0.1/ offer_num
+        accept -= (accept * 0.1) / offer_num
     elif item["Trend"] == 3:
-        accept -= 0.25 / offer_num
+        accept -= (accept * 0.35) / offer_num
     
     if item["Rare"] == 1:
-        accept -= 0.15 / offer_num
+        accept -= (accept * 0.15) / offer_num
 
     if item["Demand"] == 0:
-        accept += 0.25
+        accept += (accept * 0.25) / offer_num
     elif item["Demand"] == 1:
-        accept += 0.15
+        accept += (accept * 0.15) / offer_num
     elif item["Demand"] == 3:
-        accept -= 0.15
+        accept -= (accept * 0.15) / offer_num
     elif item["Demand"] == 4:
-        accept -= 0.25
-
-    #if hyped == 1:
-        #accept -= (0.25 * (1 - accept)) / offer_num
+        accept -= (accept * 0.35) / offer_num
 
     return accept
 
 def eval_receive(item, receive_num, accept):
     if item["Trend"] == 0:
-        accept -= 0.15 / receive_num
+        accept -= (accept * 0.15) / receive_num
     elif item["Trend"] == 1:
-        accept -= 0.05 / receive_num
+        accept -= (accept * 0.05) / receive_num
     elif item["Trend"] == 2:
-        accept += 0.1 / receive_num
+        accept += (accept * 0.1) / receive_num
     elif item["Trend"] == 3:
-        accept += 0.25 / receive_num
+        accept += (accept * 0.35) / receive_num
     
     if item["Rare"] == 1:
-        accept += 0.15 / receive_num
+        accept += (accept * 0.15) / receive_num
 
     if item["Demand"] == 0:
-        accept -= 0.25
+        accept -= (accept * 0.25) / receive_num
     elif item["Demand"] == 1:
-        accept -= 0.15
+        accept -= (accept * 0.15) / receive_num
     elif item["Demand"] == 3:
-        accept += 0.15
+        accept += (accept * 0.15) / receive_num
     elif item["Demand"] == 4:
-        accept += 0.25
-
-   #if hyped == 1:
-        #accept += (0.25 * (1 - accept)) / receive_num
+        accept += (accept * 0.35) / receive_num
 
     return accept
 
@@ -203,15 +204,20 @@ def accept_trade(offer, receive):
     if is_overpay[2] == -math.inf:
         return -math.inf
 
-    if is_overpay[0] > 0:
-        accept += is_overpay[2] / (is_overpay[1] + is_overpay[2])
-    elif is_overpay[0] < 0:
-        accept -= is_overpay[1] / (is_overpay[1] + is_overpay[2])
-
     if offer_num > receive_num and (is_overpay[0] >= (0.15 * is_overpay[1])):
-        accept += 0.15
-    elif receive_num > offer_num and (is_overpay[0] >= (0.15 * is_overpay[1])):
-        accept -= 0.15
+        accept -= ((is_overpay[1] - is_overpay[0]) / is_overpay[0])
+    elif offer_num > receive_num and (is_overpay[0] < (0.15 * is_overpay[1])):
+        accept += is_overpay[0] / is_overpay[1]
+    elif receive_num > offer_num and (is_overpay[0] > (0.15 * is_overpay[1])):
+        accept += ((is_overpay[1] - is_overpay[0]) / is_overpay[0])
+    elif receive_num > offer_num and (is_overpay[0] < (0.15 * is_overpay[1])):
+        accept -= ((is_overpay[1] - is_overpay[0]) / is_overpay[1])
+    elif receive_num == offer_num:
+        if is_overpay[0] > 0:
+            accept += is_overpay[0] / is_overpay[1]
+        elif is_overpay[0] < 0:
+            accept += is_overpay[0] / is_overpay[1]
+
 
     for item in range(offer_num):
         accept = eval_offer(offerInfo[item], offer_num, accept)
@@ -221,8 +227,8 @@ def accept_trade(offer, receive):
 
     return accept
 
-items_to_give = ["96103379"]
-items_to_receive = ["439945661", "1029025", "4390891467", "1365767"]
+items_to_give = ["20573078", "20573078", "20573078", "20573078"]
+items_to_receive = ["1082932"]
 
 trade_status = accept_trade(items_to_give, items_to_receive)
 
