@@ -1,17 +1,7 @@
 import playwright
-import requests
 import math
-from bs4 import BeautifulSoup
-
-HEADERS = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
-    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-}
-
-rolimons_item_details = requests.get("https://www.rolimons.com/itemapi/itemdetails", headers=HEADERS, timeout=10)
-rolimons = "https://www.rolimons.com/item/"
-
-query = rolimons_item_details.json()
+from proofs import calculate_proofs
+from trade_utils import item_query, generate_info, overpay
 
 passrate = 0.5
 
@@ -43,6 +33,9 @@ custom_demand_map = {
 # possibly make a rap limit (not that trade values with the bot have gotten that high yet) to stop the bot from being able to make catastrophic errors  
 # update readability, name attributes rather than just using the numbers
 # make it possible to determine demand if not assigned
+# submit trades through use of the roblox api
+# make it so it's possible to feed proofs to the bot to determine what items fetch what overpay and compile an accurate evaluation
+# only get overpay for proofs
 
 def get_ADS(soup):
     for card in soup.select(".card"):
@@ -67,81 +60,6 @@ def get_stat(soup, name):
             return value.text.strip() if value else "-1"
 
     return "-1"
-
-def item_query(item):
-    url = rolimons + item
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
-        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-    }
-
-    resp = requests.get(url, headers=headers, timeout=10)
-
-    if resp.status_code != 200:
-        raise RuntimeError(f"Failed to fetch item page: {resp.status_code}")
-
-    soup = BeautifulSoup(resp.text, "html.parser")
-
-    ads = get_ADS(soup)
-    rap = int(get_stat(soup, "RAP").replace(",", ""))
-    value = int(get_stat(soup, "Value").replace(",", ""))
-    demand = demand_dict.get(get_stat(soup, "Demand"), -1)
-
-    if item in custom_demand_map:
-        demand = custom_demand_map[item]
-
-    trend = trend_dict.get(get_stat(soup, "Trend"), -1)
-    api_entry = query.get("items", {}).get(item)
-    if api_entry:
-        hyped = 1 if len(api_entry) > 8 and api_entry[8] == 1 else -1
-        rare = 1 if len(api_entry) > 9 and api_entry[9] == 1 else -1
-        projected = 1 if len(api_entry) > 7 and api_entry[7] == 1 else -1
-    else:
-        projected = 1 if "SimpleSVGId" in str(soup) else -1
-        hyped = -1
-        rare = -1
-
-    return {"ADS" : ads, "RAP" : rap, "Value" : value, "Demand" : demand, "Projected" : projected, "Rare" : rare, "Trend" : trend, "Hyped": hyped}
-
-def generate_info(offer, receive):
-    offerInfo = {}
-    receiveInfo = {}
-
-    for item in range(len(offer)):
-       data = item_query(offer[item])
-       offerInfo[item] = data
-
-    for item in range(len(receive)):
-       data = item_query(receive[item])
-       receiveInfo[item] = data
-
-    return offerInfo, receiveInfo
-
-def overpay(offerInfo, receiveInfo):
-    offerPay = 0
-    receivePay = 0
-
-    for item in range(len(offerInfo)):
-        currentInfo = offerInfo[item]
-        if currentInfo["Projected"] == 1 and not currentInfo["Value"] == -1:
-            offerPay += currentInfo["Value"]
-        elif currentInfo["Value"] != -1:
-            offerPay += currentInfo["Value"]
-        else:
-            offerPay += currentInfo["RAP"]
-    
-    for item in range(len(receiveInfo)):
-        currentInfo = receiveInfo[item]
-        if currentInfo["Projected"] == 1 and not currentInfo["Value"] == -1:
-            receivePay += currentInfo["Value"]
-        elif currentInfo["Projected"] == 1:
-            receivePay += -math.inf
-        elif currentInfo["Value"] != -1:
-            receivePay += currentInfo["Value"]
-        else:
-            receivePay += currentInfo["RAP"]
-
-    return [receivePay - offerPay, offerPay, receivePay]
 
 def eval_offer(item, offer_num, accept):
     if item["Trend"] == 0:
@@ -211,12 +129,9 @@ def accept_trade(offer, receive):
     elif receive_num > offer_num and (is_overpay[0] > (0.15 * is_overpay[1])):
         accept += ((is_overpay[1] - is_overpay[0]) / is_overpay[0])
     elif receive_num > offer_num and (is_overpay[0] < (0.15 * is_overpay[1])):
-        accept -= ((is_overpay[1] - is_overpay[0]) / is_overpay[1])
+        accept += is_overpay[0] / is_overpay[1]
     elif receive_num == offer_num:
-        if is_overpay[0] > 0:
-            accept += is_overpay[0] / is_overpay[1]
-        elif is_overpay[0] < 0:
-            accept += is_overpay[0] / is_overpay[1]
+        accept += is_overpay[0] / is_overpay[1] * 2
 
 
     for item in range(offer_num):
@@ -227,8 +142,8 @@ def accept_trade(offer, receive):
 
     return accept
 
-items_to_give = ["20573078", "20573078", "20573078", "20573078"]
-items_to_receive = ["1082932"]
+items_to_give = ["1235488"]
+items_to_receive = ["110673146052704", "1191152570", "293318274", "1029025"]
 
 trade_status = accept_trade(items_to_give, items_to_receive)
 
@@ -238,3 +153,5 @@ elif trade_status < 0:
     print("The bot is" , trade_status * 100 * -1 , "% sure this is a bad trade.")
 else:
     print("This is an even trade.")
+
+calculate_proofs(items_to_give, items_to_receive, "4255053867")
