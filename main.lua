@@ -1,9 +1,11 @@
 import playwright
 import math
+import os
+import json
 from proofs import calculate_proofs
 from trade_utils import item_query, generate_info, overpay
 
-passrate = 0.5
+passrate = 0.25
 
 demand_dict = {
     "None" : -1,
@@ -122,13 +124,34 @@ def accept_trade(offer, receive):
     if is_overpay[2] == -math.inf:
         return -math.inf
 
-    if offer_num > receive_num and (is_overpay[0] >= (0.15 * is_overpay[1])):
+    proofs_data = {}
+    if os.path.exists("proofs.json"):
+        with open("proofs.json", "r") as f:
+            proofs_data = json.load(f)
+
+    def get_overpay_threshold(items_list):
+        weighted_threshold = 0
+        total_value = 0
+        for item_id in items_list:
+            item_data = item_query(item_id)
+            item_value = item_data["Value"] if item_data["Value"] != -1 else item_data["RAP"]
+            if item_id in proofs_data:
+                item_threshold = proofs_data[item_id] / item_value
+            else:
+                item_threshold = 0.15
+            weighted_threshold += item_threshold * item_value
+            total_value += item_value
+        return weighted_threshold / total_value if total_value > 0 else 0.15
+
+    threshold = get_overpay_threshold(list(offer) + list(receive))
+
+    if offer_num > receive_num and (is_overpay[0] >= (threshold * is_overpay[1])):
         accept -= ((is_overpay[1] - is_overpay[0]) / is_overpay[0])
-    elif offer_num > receive_num and (is_overpay[0] < (0.15 * is_overpay[1])):
+    elif offer_num > receive_num and (is_overpay[0] < (threshold * is_overpay[1])):
         accept += is_overpay[0] / is_overpay[1]
-    elif receive_num > offer_num and (is_overpay[0] > (0.15 * is_overpay[1])):
+    elif receive_num > offer_num and (is_overpay[0] > (threshold * is_overpay[1])):
         accept += ((is_overpay[1] - is_overpay[0]) / is_overpay[0])
-    elif receive_num > offer_num and (is_overpay[0] < (0.15 * is_overpay[1])):
+    elif receive_num > offer_num and (is_overpay[0] < (threshold * is_overpay[1])):
         accept += is_overpay[0] / is_overpay[1]
     elif receive_num == offer_num:
         accept += is_overpay[0] / is_overpay[1] * 2
@@ -142,8 +165,8 @@ def accept_trade(offer, receive):
 
     return accept
 
-items_to_give = ["1235488"]
-items_to_receive = ["110673146052704", "1191152570", "293318274", "1029025"]
+items_to_give = ["16477149823", "110673146052704"]
+items_to_receive = ["1081239"]
 
 trade_status = accept_trade(items_to_give, items_to_receive)
 
@@ -154,4 +177,4 @@ elif trade_status < 0:
 else:
     print("This is an even trade.")
 
-calculate_proofs(items_to_give, items_to_receive, "4255053867")
+calculate_proofs(items_to_give, items_to_receive)
