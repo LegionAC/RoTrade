@@ -11,7 +11,11 @@ def append_proof(item_overpay, proof_item):
         data = {}
 
     if proof_item in data:
-        item_overpay = (item_overpay + data[proof_item]) / 2
+        existing = data[proof_item]
+        if existing == 0 or item_overpay == 0 or (existing > 0) == (item_overpay > 0):
+            item_overpay = (item_overpay + existing) / 2
+        else:
+            item_overpay = item_overpay
 
     data[proof_item] = math.ceil(item_overpay)
 
@@ -23,21 +27,24 @@ def calculate_proofs(offer, receive):
     total_overpay = overpay(offerInfo, receiveInfo)[0]
 
     if total_overpay == 0:
-        raise ValueError("Total overpay is zero; cannot compute proof ratios")
+        return
 
-    all_items = list(offer) + list(receive)
-    total_values = 0
+    side_items = receive
+    side_name = "receive"
+    total_overpay = abs(total_overpay)
+
+    side_values = 0
     item_values = {}
 
-    for item in all_items:
+    for item in side_items:
         item_data = item_query(item)
         item_value = item_data["Value"] if item_data["Value"] != -1 else item_data["RAP"]
         item_values[item] = item_value
-        total_values += item_value
+        side_values += item_value
 
-    if total_values == 0:
-        raise ValueError("Total item value is zero; cannot compute weighted proof ratios")
+    if side_values == 0:
+        return
 
-    for item in all_items:
-        item_overpay = total_overpay * (item_values[item] / total_values)
+    for item in side_items:
+        item_overpay = total_overpay * (item_values[item] / side_values)
         append_proof(item_overpay, item)
