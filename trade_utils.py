@@ -3,13 +3,12 @@ import math
 from bs4 import BeautifulSoup
 
 HEADERS = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
-    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Accept-Language": "en-US,en;q=0.5",
 }
 
-rolimons_item_details = requests.get("https://www.rolimons.com/itemapi/itemdetails", headers=HEADERS, timeout=10)
 rolimons = "https://www.rolimons.com/item/"
-query = rolimons_item_details.json()
 
 passrate = 0.5
 
@@ -72,19 +71,21 @@ def item_query(item):
     soup = BeautifulSoup(resp.text, "html.parser")
 
     ads = get_ADS(soup)
-    rap = int(get_stat(soup, "RAP").replace(",", ""))
-    value = int(get_stat(soup, "Value").replace(",", ""))
+    rap_raw = get_stat(soup, "RAP")
+    value_raw = get_stat(soup, "Value")
+    rap = int(rap_raw.replace(",", "")) if rap_raw != "-1" else -1
+    value = int(value_raw.replace(",", "")) if value_raw != "-1" else -1
     demand = demand_dict.get(get_stat(soup, "Demand"), -1)
+    trend = trend_dict.get(get_stat(soup, "Trend"), -1)
 
     if item in custom_demand_map:
         demand = custom_demand_map[item]
 
-    trend = trend_dict.get(get_stat(soup, "Trend"), -1)
     api_entry = query.get("items", {}).get(item)
     if api_entry:
+        projected = 1 if len(api_entry) > 7 and api_entry[7] == 1 else -1
         hyped = 1 if len(api_entry) > 8 and api_entry[8] == 1 else -1
         rare = 1 if len(api_entry) > 9 and api_entry[9] == 1 else -1
-        projected = 1 if len(api_entry) > 7 and api_entry[7] == 1 else -1
     else:
         projected = 1 if "SimpleSVGId" in str(soup) else -1
         hyped = -1
@@ -100,7 +101,6 @@ def item_query(item):
         "Trend": trend,
         "Hyped": hyped,
     }
-
 
 def generate_info(offer, receive):
     offerInfo = {}
