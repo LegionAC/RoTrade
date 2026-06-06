@@ -111,10 +111,23 @@ def eval_receive(item, receive_num, accept):
 
     return accept
 
+def get_overpay_threshold(items_list, proofs_data):
+    weighted_threshold = 0
+    total_value = 0
+    for item_id in items_list:
+        item_data = item_query(item_id)
+        item_value = item_data["Value"] if item_data["Value"] != -1 else item_data["RAP"]
+        if item_id in proofs_data:
+            item_threshold = abs(proofs_data[item_id]) / item_value
+        else:
+            item_threshold = 0.15
+            weighted_threshold += item_threshold * item_value
+            total_value += item_value
+    return weighted_threshold / total_value if total_value > 0 else 0.15
+
 def accept_trade(offer, receive):
     offer_num = len(offer)
     receive_num = len(receive)
-
     accept = 0
 
     offerInfo, receiveInfo = generate_info(offer, receive)
@@ -126,50 +139,32 @@ def accept_trade(offer, receive):
 
     is_overpay = overpay(offerInfo, receiveInfo)
 
+    if is_overpay[2] == -math.inf:
+        return -math.inf
+
     offer_proof_bonus = sum(proofs_data.get(item_id, 0) for item_id in offer)
     receive_proof_bonus = sum(proofs_data.get(item_id, 0) for item_id in receive)
     is_overpay = [
         is_overpay[0] + receive_proof_bonus - offer_proof_bonus,
-        is_overpay[1] + offer_proof_bonus,
-        is_overpay[2] + receive_proof_bonus,
+        is_overpay[1],
+        is_overpay[2],
     ]
 
-    if is_overpay[2] == -math.inf:
-        return -math.inf
-
-    def get_overpay_threshold(items_list):
-        weighted_threshold = 0
-        total_value = 0
-        for item_id in items_list:
-            item_data = item_query(item_id)
-            item_value = item_data["Value"] if item_data["Value"] != -1 else item_data["RAP"]
-            if item_id in proofs_data:
-                item_threshold = abs(proofs_data[item_id]) / item_value
-            else:
-                item_threshold = 0.15
-            weighted_threshold += item_threshold * item_value
-            total_value += item_value
-        return weighted_threshold / total_value if total_value > 0 else 0.15
-
     if is_overpay[0] >= 0:
-        threshold = get_overpay_threshold(receive)
+        threshold = get_overpay_threshold(list(receive), proofs_data)
     else:
-        threshold = get_overpay_threshold(offer)
+        threshold = get_overpay_threshold(list(offer), proofs_data)
 
-    if offer_num >= receive_num:
-        base_value = is_overpay[1]
+    base_value = max(is_overpay[1], is_overpay[2])
+    ratio = is_overpay[0] / base_value if base_value > 0 else 0
+
+    if ratio >= 0:
+        score = min(ratio / threshold, 1.0)
     else:
-        base_value = is_overpay[2]
+        loss_ratio = (abs(ratio) - threshold) / threshold
+        score = max(-loss_ratio, -1.0)
 
-    expected_overpay = threshold * base_value
-
-    def overpay_score(actual, expected):
-        expected = max(expected, 1)
-        delta = actual - expected
-        ratio = delta / expected
-        return math.copysign(abs(ratio) ** 2, ratio)
-
-    accept += overpay_score(is_overpay[0], expected_overpay)
+    accept += score
 
     for item in range(offer_num):
         accept = eval_offer(offerInfo[item], offer_num, accept)
@@ -179,8 +174,8 @@ def accept_trade(offer, receive):
 
     return max(min(accept, 1), -1)
 
-items_to_give = ["102605392", "7636350", "63253701", "3798239844"]
-items_to_receive = ["14463095", "4390891467", "19027209"]
+items_to_give = ["19027209", "20573078", "126892292563296"]
+items_to_receive = ["9255011"]
 
 trade_status = accept_trade(items_to_give, items_to_receive)
 
