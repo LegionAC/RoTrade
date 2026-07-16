@@ -85,13 +85,15 @@ void decline_trades(json trades, query_info info) {
 
 void filter_loop(query_info info) {
     while (filter_switch) {
-        bool success = false;
-        httplib::Result res(nullptr, httplib::Error::Success);
-        while (success == false) {
-            res = filter_cli.Get("/v1/trades/Inbound", filter_headers);
+        auto res = filter_cli.Get("/v1/trades/Inbound", filter_headers);
 
-            if (res && res->status == 200) success = true;
+        if (res->status != 200) {
+            filter_switch = false;
+            std::string err_msg = res->status == 401 ? "Invalid user information. Retry /trade-filter." : "Unknown error occurred. Please screenshot and create a github issue.\n" + res->body;
+            ping_cmd_line(err_msg);
+            break;
         }
+
         json trades = json::parse(res->body);
 
         decline_trades(trades, info);
