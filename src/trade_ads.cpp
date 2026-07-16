@@ -88,7 +88,7 @@ json ad_user_query() {
 }
 
 void ad_loop(std::string timer, json j) {
-    while (ad_switch) {
+    while (switch_list.ad_switch) {
         auto res = send_trade(j, stoi(timer));
 
         if (res->status == 201) {

@@ -85,14 +85,16 @@ item_info populate_item_struct(json item, bool user, json item_history, std::str
     return info;
 }
 
-int get_bundle_item_id(std::string item_name, json data) {
-    for (int v : data["items"]) {
-        if (data["items"][v][0] == item_name) {
-            return v;
+std::string get_bundle_item_id(std::string item_name, json data) {
+    for (auto it : data["items"].items()) {
+        std::string current_name = it.value()[0];
+        current_name.erase(std::remove(current_name.begin(), current_name.end(), ' '));
+        if (current_name == item_name) {
+            return it.key();
         }
     }
 
-    return 0;
+    return "";
 }
 
 item_info get_item_info(std::string item_id, bool user) {
@@ -110,13 +112,13 @@ item_info get_item_info(std::string item_id, bool user) {
 
     std::string name = data["name"];
 
-    if (bundle) item_id = get_bundle_item_id(name, data);
-
     auto history_res = history_cli.Get("/marketplace-sales/v1/item/" + uuid + "/resale-data");
 
     json history = json::parse(history_res->body);
 
     data = json::parse(current_data_res->body);
+
+    if (bundle) item_id = get_bundle_item_id(name, data);
 
     json target_item = data["items"][item_id];
 

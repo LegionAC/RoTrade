@@ -23,16 +23,16 @@ void help_cmd() {
 void utils_running() {
     bool util_printed;
 
-    if (!ad_switch && !filter_switch) {
+    if (!switch_list.ad_switch && !switch_list.filter_switch) {
         std::cout << "nothing running.";
     }
 
-    if (ad_switch) {
+    if (switch_list.ad_switch) {
         std::cout << "auto-ads running";
         util_printed = true;
     }
 
-    if (filter_switch) {
+    if (switch_list.filter_switch) {
         if (util_printed) std::cout << ", ";
         std::cout << "trade-filter running";
         util_printed = true;
@@ -49,22 +49,22 @@ int cmd_search(std::string user_input) {
     } else if (user_input == "/help") {
         help_cmd();
     } else if (user_input == "/auto-ads") {
-        ad_switch = true;
+        switch_list.ad_switch = true;
         start_trade_ads();
     } else if (user_input == "/trade-filter") {
-        filter_switch = true;
+        switch_list.filter_switch = true;
         filter_trades();
     } else if (user_input == "/disable-all") {
-        ad_switch = false;
-        filter_switch = false;
+        switch_list.ad_switch = false;
+        switch_list.filter_switch = false;
 
         std::cout << "all processes disabled.\n\n";
     } else if (user_input == "/disable-ads") {
-        ad_switch = false;
+        switch_list.ad_switch = false;
 
         std::cout << "trade ads disabled.\n\n";
     } else if (user_input == "/disable-filter") {
-        filter_switch = false;
+        switch_list.filter_switch = false;
 
         std::cout << "filter disabled.\n\n";
     } else if (user_input == "/utils-running") {

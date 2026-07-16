@@ -1,8 +1,6 @@
-#define CPPHTTPLIB_OPENSSL_SUPPORT
 #include <vector>
 #include <string>
 #include <iostream>
-#include "httplib.h"
 #include <nlohmann/json.hpp>
 #include "feature_utils.h"
 
