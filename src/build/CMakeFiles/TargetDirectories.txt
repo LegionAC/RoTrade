@@ -1,0 +1,3 @@
+/home/mojot/Documents/RoTrade-main/src/build/CMakeFiles/RoTrade.dir
+/home/mojot/Documents/RoTrade-main/src/build/CMakeFiles/edit_cache.dir
+/home/mojot/Documents/RoTrade-main/src/build/CMakeFiles/rebuild_cache.dir

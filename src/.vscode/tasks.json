@@ -15,6 +15,7 @@
                 "trade_eval.cpp",
                 "trade_ads.cpp",
                 "trade_filter.cpp",
+                "data_query.cpp",
                 "-lssl",
                 "-lcrypto",
                 "-lgumbo"

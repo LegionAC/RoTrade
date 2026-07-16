@@ -4,48 +4,15 @@
 #include <iostream>
 #include "httplib.h"
 #include <nlohmann/json.hpp>
+#include "feature_utils.h"
 
 using json = nlohmann::json;
 
-struct item_info {
-    int rap;
-    int value;
-    int demand;
-    int projected;
-    int rare;
-};
-
-httplib::Client eval_cli("https://api.rolimons.com");
-
-item_info populate_item_struct(json item) {
-    item_info info;
-
-    info.rap = item[2];
-    info.value = item[4];
-    info.demand = item[5];
-    info.projected = item[7];
-    info.rare = item[9];
-
-    return info;
-}
-
-item_info get_item_info(std::string item_id) {
-    auto res = eval_cli.Get("/items/v2/itemdetails");
-
-    json data = json::parse(res->body);
-
-    json target_item = data["items"][item_id];
-
-    item_info info = populate_item_struct(target_item);
-
-    return info;
-}
-
-std::vector<item_info> get_item_vector(std::vector<std::string> items) {
+std::vector<item_info> get_item_vector(std::vector<std::string> items, bool user) {
     std::vector<item_info> item_list;
 
     for (std::string v : items) {
-        item_info info = get_item_info(v);
+        item_info info = get_item_info(v, user);
 
         item_list.push_back(info);
     }
@@ -126,8 +93,8 @@ double eval_sum(std::vector<item_info> offer, std::vector<item_info> receive, in
 }
 
 double eval_trade(std::vector<std::string> offer_ids, std::vector<std::string> receive_ids, int offer_robux, int receive_robux) {
-    std::vector<item_info> offer = get_item_vector(offer_ids);
-    std::vector<item_info> receive = get_item_vector(receive_ids);
+    std::vector<item_info> offer = get_item_vector(offer_ids, true);
+    std::vector<item_info> receive = get_item_vector(receive_ids, false);
 
     int offer_type = trade_type(offer_ids.size(), receive_ids.size());
 

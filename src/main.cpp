@@ -2,9 +2,7 @@
 #include <iostream>
 
 int main() {
-    //cli();
-
-    item_query("20011925");
+    cli();
 
     return 0;
-}   
+}

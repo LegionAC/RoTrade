@@ -7,7 +7,7 @@
 
 httplib::Client parse_cli("https://www.rolimons.com");
 
-item_info info;
+web_scraped info;
 
 GumboNode* find_sibling_node(GumboNode* child, GumboVector* children) {
     for (int i{0}; i < 2; i++) {
@@ -79,11 +79,8 @@ void parse_doc(std::string item_id) {
     gumbo_destroy_output(&kGumboDefaultOptions, output);
 }
 
-item_info item_query(std::string item_id) {
+web_scraped item_query(std::string item_id) {
     parse_doc(item_id);
-
-    std::cout << info.ADS << "\n";
-    std::cout << info.best_price << "\n";
 
     return info;
 }

@@ -3,9 +3,20 @@
 #include <vector>
 #include <string>
 
-struct item_info {
+struct web_scraped {
     double ADS;
     int best_price;
+};
+
+struct item_info {
+    int rap;
+    int value;
+    int demand;
+    int projected;
+    int rare;
+    int ADS;
+    int best_price;
+    int extra_rap;
 };
 
 extern double eval_trade(std::vector<std::string> offer_ids, std::vector<std::string> receive_ids, int offer_robux, int receive_robux);
@@ -14,7 +25,8 @@ extern void start_trade_ads();
 extern void cli();
 extern void ping_cmd_line(std::string msg);
 extern std::string query_interface(std::string msg);
-extern item_info item_query(std::string item_id);
+extern web_scraped item_query(std::string item_id);
+extern item_info get_item_info(std::string item_id, bool user);
 
 inline bool global_proc_switch = true;
 inline bool ad_switch = false;
