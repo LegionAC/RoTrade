@@ -85,16 +85,32 @@ item_info populate_item_struct(json item, bool user, json item_history, std::str
     return info;
 }
 
+int get_bundle_item_id(std::string item_name, json data) {
+    for (int v : data["items"]) {
+        if (data["items"][v][0] == item_name) {
+            return v;
+        }
+    }
+
+    return 0;
+}
+
 item_info get_item_info(std::string item_id, bool user) {
     auto current_data_res = eval_cli.Get("/items/v2/itemdetails");
     
     auto uuid_res = UUID_cli.Get("/v1/catalog/items/" + item_id + "/details?itemType=asset");
-    
-    if (uuid_res->body.empty()) auto uuid_res = UUID_cli.Get("/v1/catalog/items/" + item_id + "/details?itemType=bundle");
+
+    bool bundle = uuid_res->status != 200 ? true : false;
+
+    if (bundle) uuid_res = UUID_cli.Get("/v1/catalog/items/" + item_id + "/details?itemType=bundle");
 
     json data = json::parse(uuid_res->body);
 
     std::string uuid = data["collectibleItemId"];
+
+    std::string name = data["name"];
+
+    if (bundle) item_id = get_bundle_item_id(name, data);
 
     auto history_res = history_cli.Get("/marketplace-sales/v1/item/" + uuid + "/resale-data");
 
