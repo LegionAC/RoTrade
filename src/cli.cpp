@@ -55,8 +55,8 @@ int cmd_search(std::string user_input) {
         filter_switch = true;
         filter_trades();
     } else if (user_input == "/disable-all") {
-        global_proc_switch = false;
-        global_proc_switch = true;
+        ad_switch = false;
+        filter_switch = false;
 
         std::cout << "all processes disabled.\n\n";
     } else if (user_input == "/disable-ads") {

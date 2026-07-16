@@ -28,7 +28,6 @@ extern std::string query_interface(std::string msg);
 extern web_scraped item_query(std::string item_id);
 extern item_info get_item_info(std::string item_id, bool user);
 
-inline bool global_proc_switch = true;
 inline bool ad_switch = false;
 inline bool filter_switch = false;
 inline bool cmd_wait;

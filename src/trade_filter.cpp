@@ -84,7 +84,7 @@ void decline_trades(json trades, query_info info) {
 }
 
 void filter_loop(query_info info) {
-    while (filter_switch && global_proc_switch) {
+    while (filter_switch) {
         bool success = false;
         httplib::Result res(nullptr, httplib::Error::Success);
         while (success == false) {

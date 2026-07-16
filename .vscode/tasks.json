@@ -14,8 +14,11 @@
                 "trade_ads.cpp",
                 "trade_filter.cpp",
                 "cli.cpp",
+                "web_scraper.cpp",
+                "data_query.cpp",
                 "-lssl",
-                "-lcrypto"
+                "-lcrypto",
+                "-lgumbo"
             ],
             "options": {
                 "cwd": "${fileDirname}"

@@ -90,6 +90,8 @@ item_info get_item_info(std::string item_id, bool user) {
     
     auto uuid_res = UUID_cli.Get("/v1/catalog/items/" + item_id + "/details?itemType=asset");
     
+    if (uuid_res->body.empty()) auto uuid_res = UUID_cli.Get("/v1/catalog/items/" + item_id + "/details?itemType=bundle");
+
     json data = json::parse(uuid_res->body);
 
     std::string uuid = data["collectibleItemId"];
