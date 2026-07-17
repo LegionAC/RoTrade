@@ -3,14 +3,21 @@
 #include <iostream>
 #include <nlohmann/json.hpp>
 #include "feature_utils.h"
+#define CPPHTTPLIB_OPENSSL_SUPPORT
+#include "httplib.h"
 
 using json = nlohmann::json;
 
-std::vector<item_info> get_item_vector(std::vector<std::string> items, bool user) {
+std::vector<item_info> get_item_vector(std::vector<std::string> items) {
     std::vector<item_info> item_list;
 
+    auto current_data_res = roli_api.Get("/items/v2/itemdetails");
+
+    json data = json::parse(current_data_res->body);
+
     for (std::string v : items) {
-        item_info info = get_item_info(v, user);
+        if (v.empty()) continue;
+        item_info info = get_item_info(v, data);
 
         item_list.push_back(info);
     }
@@ -34,7 +41,11 @@ int value_sum(std::vector<item_info> offer, int robux) {
     rap += robux;
 
     for (item_info v : offer) {
-        rap += v.value;
+        if (v.value == v.rap && v.rap > v.extra_rap) {
+            rap += v.extra_rap;
+        } else {
+            rap += v.value;
+        }
     }
 
     return rap;
@@ -91,8 +102,8 @@ double eval_sum(std::vector<item_info> offer, std::vector<item_info> receive, in
 }
 
 double eval_trade(std::vector<std::string> offer_ids, std::vector<std::string> receive_ids, int offer_robux, int receive_robux) {
-    std::vector<item_info> offer = get_item_vector(offer_ids, true);
-    std::vector<item_info> receive = get_item_vector(receive_ids, false);
+    std::vector<item_info> offer = get_item_vector(offer_ids);
+    std::vector<item_info> receive = get_item_vector(receive_ids);
 
     int offer_type = trade_type(offer_ids.size(), receive_ids.size());
 

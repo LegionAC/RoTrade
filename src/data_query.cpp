@@ -8,12 +8,6 @@
 
 using json = nlohmann::json;
 
-httplib::Client eval_cli("https://api.rolimons.com");
-
-httplib::Client UUID_cli("https://catalog.roblox.com");
-
-httplib::Client history_cli("https://apis.roblox.com");
-
 int get_median(std::vector<int> container) {
     std::sort(container.begin(), container.end());
 
@@ -30,13 +24,16 @@ int get_median(std::vector<int> container) {
     return 0;
 }
 
-item_info populate_item_struct(json item, bool user, json item_history, std::string item_id) {
+item_info populate_item_struct(json item, json item_history, std::string item_id) {
     item_info info;
 
-    if (user) {info.value = item[4];} else {info.value = item[2];} // [2] = rap, [4] = value
+    info.rap = item[2];
+    info.value = item[4];
     info.demand = item[5];
     info.projected = item[7];
     info.rare = item[9];
+
+    if (item[2] == item[4] || info.rare == 1) return info;
 
     int current_rap = item[2];
 
@@ -47,6 +44,8 @@ item_info populate_item_struct(json item, bool user, json item_history, std::str
     std::vector<int> median_diff_container;
 
     for (int i{0}; i < 14; i++) {
+        if (item_history["priceDataPoints"][i]["value"].is_null()) break;
+
         int rap = item_history["priceDataPoints"][i]["value"];
 
         median_rap_container.push_back(rap);
@@ -88,8 +87,7 @@ item_info populate_item_struct(json item, bool user, json item_history, std::str
 std::string get_bundle_item_id(std::string item_name, json data) {
     for (auto it : data["items"].items()) {
         std::string current_name = it.value()[0];
-        current_name.erase(std::remove(current_name.begin(), current_name.end(), ' '));
-        if (current_name == item_name) {
+        if (current_name == item_name || current_name == item_name + " ") {
             return it.key();
         }
     }
@@ -97,32 +95,28 @@ std::string get_bundle_item_id(std::string item_name, json data) {
     return "";
 }
 
-item_info get_item_info(std::string item_id, bool user) {
-    auto current_data_res = eval_cli.Get("/items/v2/itemdetails");
-    
-    auto uuid_res = UUID_cli.Get("/v1/catalog/items/" + item_id + "/details?itemType=asset");
+item_info get_item_info(std::string item_id, json item_data) {
+    auto uuid_res = catalog_api.Get("/v1/catalog/items/" + item_id + "/details?itemType=asset");
 
-    bool bundle = uuid_res->status != 200 ? true : false;
+    bool bundle = uuid_res->status == 400 ? true : false;
 
-    if (bundle) uuid_res = UUID_cli.Get("/v1/catalog/items/" + item_id + "/details?itemType=bundle");
+    if (bundle) uuid_res = catalog_api.Get("/v1/catalog/items/" + item_id + "/details?itemType=bundle");
 
-    json data = json::parse(uuid_res->body);
+    json uuid_data = json::parse(uuid_res->body);
 
-    std::string uuid = data["collectibleItemId"];
+    std::string uuid = uuid_data["collectibleItemId"];
 
-    std::string name = data["name"];
+    std::string name = uuid_data["name"];
 
-    auto history_res = history_cli.Get("/marketplace-sales/v1/item/" + uuid + "/resale-data");
+    auto history_res = roblox_apis.Get("/marketplace-sales/v1/item/" + uuid + "/resale-data");
 
     json history = json::parse(history_res->body);
 
-    data = json::parse(current_data_res->body);
+    if (bundle) item_id = get_bundle_item_id(name, item_data);
 
-    if (bundle) item_id = get_bundle_item_id(name, data);
+    json target_item = item_data["items"][item_id];
 
-    json target_item = data["items"][item_id];
-
-    item_info info = populate_item_struct(target_item, user, history, item_id);
+    item_info info = populate_item_struct(target_item, history, item_id);
 
     return info;
 }

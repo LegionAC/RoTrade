@@ -11,14 +11,12 @@ using json = nlohmann::json;
 using namespace std::this_thread;
 using namespace std::chrono;
 
-httplib::Client ad_cli("https://api.rolimons.com");
-
 httplib::Headers ad_headers({
     {"Cookie", ""}
 });
 
 auto send_trade(json j, int timer) {
-    auto res = ad_cli.Post("/tradeads/v1/createad", ad_headers, j.dump(), "application/json");
+    auto res = roli_api.Post("/tradeads/v1/createad", ad_headers, j.dump(), "application/json");
 
     return res;
 }
