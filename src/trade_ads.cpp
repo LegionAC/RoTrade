@@ -94,7 +94,9 @@ void ad_loop(std::string timer, json j) {
         } else if (res->status == 14) {
             ping_cmd_line("Trade ad limit reached... Waiting " + timer + " seconds.");
         } else {
-            ping_cmd_line("Trade ad error: " + std::to_string(res->status) + "\nError code: " + res->body + "\n\n");
+            ping_cmd_line("Trade ad error: " + std::to_string(res->status) + "\nError code: " + res->body);
+            switch_list.ad_switch = false;
+            break;
         }
 
         sleep_for(seconds(stoi(timer)));

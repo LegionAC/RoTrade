@@ -91,6 +91,7 @@ void filter_loop(query_info info) {
             switch_list.filter_switch = false;
             std::string err_msg = res->status == 401 ? "Invalid user information. Retry /trade-filter." : "Unknown error occurred. Please screenshot and create a github issue.\n" + res->body;
             ping_cmd_line(err_msg);
+            switch_list.filter_switch = false;
             break;
         }
 
