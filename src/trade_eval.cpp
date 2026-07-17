@@ -8,12 +8,8 @@
 
 using json = nlohmann::json;
 
-std::vector<item_info> get_item_vector(std::vector<std::string> items) {
+std::vector<item_info> get_item_vector(std::vector<std::string> items, json data) {
     std::vector<item_info> item_list;
-
-    auto current_data_res = roli_api.Get("/items/v2/itemdetails");
-
-    json data = json::parse(current_data_res->body);
 
     for (std::string v : items) {
         if (v.empty()) continue;
@@ -102,8 +98,12 @@ double eval_sum(std::vector<item_info> offer, std::vector<item_info> receive, in
 }
 
 double eval_trade(std::vector<std::string> offer_ids, std::vector<std::string> receive_ids, int offer_robux, int receive_robux) {
-    std::vector<item_info> offer = get_item_vector(offer_ids);
-    std::vector<item_info> receive = get_item_vector(receive_ids);
+    auto current_data_res = roli_api.Get("/items/v2/itemdetails");
+
+    json data = json::parse(current_data_res->body);
+    
+    std::vector<item_info> offer = get_item_vector(offer_ids, data);
+    std::vector<item_info> receive = get_item_vector(receive_ids, data);
 
     int offer_type = trade_type(offer_ids.size(), receive_ids.size());
 

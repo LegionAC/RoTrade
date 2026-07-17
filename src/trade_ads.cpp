@@ -91,7 +91,7 @@ void ad_loop(std::string timer, json j) {
 
         if (res->status == 201) {
             ping_cmd_line("Trade ad sent successfully. Waiting " + timer + " seconds.");
-        } else if (res->status == 14) {
+        } else if (res->status == 400) {
             ping_cmd_line("Trade ad limit reached... Waiting " + timer + " seconds.");
         } else {
             ping_cmd_line("Trade ad error: " + std::to_string(res->status) + "\nError code: " + res->body);
