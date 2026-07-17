@@ -10,7 +10,7 @@ Updated version of original python-written RoTrade, now with new features and wr
 - The RoTrade trade filter automatically declines trades deemed inconsiderable through the user configured trade evaluation.
 - The user chooses a baseline value (such as 0.2, 0.0 is a theoretical even trade) , if the trade falls short of that value in the trade eval, the trade is automatically declined.
 - The trade is also declined if the other user is offering projected items.
-- If trades do pass the trade eval, they are not accepted automatically. The tool is simply made to streamline the process of looking through trades, and ignoring trades which aren't even worth considering.
+- If trades do pass the trade eval, they are not accepted automatically. The tool is simply made to streamline the process of looking through trades, and ignoring trades which aren't worth considering.
 
 <ins>BELOW IS AN EXAMPLE INPUT TO THE TRADE FILTER</ins>
 
