@@ -76,25 +76,26 @@ double demand_sum(std::vector<item_info> offer) {
 
 double eval_sum(std::vector<item_info> offer, std::vector<item_info> receive, int trade_type, int offer_sum, int overpay, bool player) {
     double sum{0};
-    double baseline = offer_sum * 0.15;
 
     if (has_proj(receive) && player) {
         return -999999999;
     }
 
-    for (item_info v : offer) {
-        if (trade_type == 1 || trade_type == 0) {
-            sum -= (double)overpay / offer_sum;
-        } else {
-            sum += (double)overpay / offer_sum;
-        }
-
-        sum += demand_sum(offer);
-
-        sum -= demand_sum(receive);
+    if (trade_type == 1 || trade_type == 0) {
+        sum -= (double)overpay / offer_sum;
+    } else {
+        sum += (double)overpay / offer_sum;
     }
 
-    return sum / offer.size();
+    sum += demand_sum(offer);
+
+    sum -= demand_sum(receive);
+    
+    for (item_info v : offer) {
+        sum += v.ADS / 100;
+    }
+
+    return sum;
 }
 
 double eval_trade(std::vector<std::string> offer_ids, std::vector<std::string> receive_ids, int offer_robux, int receive_robux) {
