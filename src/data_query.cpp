@@ -33,6 +33,11 @@ item_info populate_item_struct(json item, json item_history, std::string item_id
     info.projected = item[7];
     info.rare = item[9];
 
+    web_scraped scraped_info =  item_query(item_id);
+
+    info.ADS = scraped_info.ADS;
+    info.best_price = scraped_info.best_price;
+
     if (item[2] == item[4] || info.rare == 1) return info;
 
     int current_rap = item[2];
@@ -59,8 +64,6 @@ item_info populate_item_struct(json item, json item_history, std::string item_id
 
     int diff_median = std::abs(get_median(median_diff_container));
 
-    web_scraped scraped_info = item_query(item_id);
-
     int bidaily_sales = static_cast<int>(std::round(scraped_info.ADS * 2));
 
     int diff = current_rap - rap_median;
@@ -79,7 +82,6 @@ item_info populate_item_struct(json item, json item_history, std::string item_id
         info.extra_rap = (bidaily_sales >= sales_required) ? rap_median : current_rap + extrapolated;
     }
 
-    info.ADS = scraped_info.ADS;
     // to-do: measure volatility and measure momentum.
     return info;
 }

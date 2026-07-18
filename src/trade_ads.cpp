@@ -21,15 +21,16 @@ auto send_trade(json j, int timer) {
     return res;
 }
 
-json csv_parse(std::string str, bool id) {
-    json values = json::array();
+json json_csv_parse(std::string str, bool id, bool vector) {
     std::string buffer;
+
+    json values = json::array();
+
+    str.erase(std::remove(str.begin(), str.end(), ' '), str.end());
 
     for (char v : str) {
         if (v != ',') {
             buffer.push_back(std::tolower(v) );
-        } else if (v == ' ') {
-            continue;
         } else if (!buffer.empty()) {
             if (id && buffer != "0") {
                 values.push_back(std::stoi(buffer));
@@ -76,11 +77,11 @@ json ad_user_query() {
 
     j["player_id"] = std::stoi(id);
 
-    j["offer_item_ids"] = csv_parse(offer, true);
+    j["offer_item_ids"] = json_csv_parse(offer, true, false);
 
-    j["request_item_ids"] = csv_parse(request, true);
+    j["request_item_ids"] = json_csv_parse(request, true, false);
 
-    j["request_tags"] = csv_parse(tags, false);
+    j["request_tags"] = json_csv_parse(tags, false, false);
 
     return j;
 }

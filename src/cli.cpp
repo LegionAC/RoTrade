@@ -5,8 +5,9 @@
 #include "feature_utils.h"
 #include <thread>
 #include <mutex>
+#include <cctype>
 
-std::vector<std::string> cmd_line = {"/help", "/disable-all", "/auto-ads", "/disable-ads", "/trade-filter", "/disable-filter", "/utils-running"}; // /auto-trade is a planned feature.
+std::vector<std::string> cmd_line = {"/help", "/disable-all", "/auto-ads", "/disable-ads", "/trade-filter", "/disable-filter", "/utils-running", "/trade-eval"}; // /auto-trade is a planned feature.
 
 std::mutex mutex;
 
@@ -17,7 +18,44 @@ void help_cmd() {
     std::cout << "/disable-ads: disables automated ads.\n";
     std::cout << "/trade-filter: automatically declines trades which are low quality or involve projected items.\n";
     std::cout << "/disable-filter: disables trade filter.\n";
-    std::cout << "/utils-running: returns all running utilities.\n\n";
+    std::cout << "/utils-running: returns all running utilities.\n";
+    std::cout << "/trade-eval: returns a decimal score of a given trade.\n\n";
+}
+
+std::vector<std::string> vector_csv_parse(std::string input) {
+    std::vector<std::string> container;
+    std::string buffer;
+
+    input.erase(std::remove(input.begin(), input.end(), ' '), input.end());
+
+    for (int i{0}; i < input.size(); i++) {
+        if (!std::isdigit(input[i]) && input[i] != ',') continue;
+        char v = input[i];
+        if (v != ',') buffer.push_back(v);
+        if (v == ',' || i == input.size() - 1) { 
+            container.push_back(buffer);
+            buffer.clear();
+        }
+    }
+
+    return container;
+}
+
+void trade_eval() {
+    std::string offer_input = query_interface("\nEnter your offer (csv): ");
+    std::string receive_input = query_interface("\nEnter your recipient offer (csv): ");
+    std::string offer_robux_input = query_interface("\nEnter your offered robux: ");
+    std::string receive_robux_input = query_interface("\nEnter your recipient robux: ");
+
+    int offer_robux = std::stoi(offer_robux_input);
+    int receive_robux = std::stoi(receive_robux_input);
+
+    std::vector<std::string> offer = vector_csv_parse(offer_input);
+    std::vector<std::string> receive = vector_csv_parse(receive_input);
+
+    double eval = eval_trade(offer, receive, offer_robux, receive_robux);
+
+    std::cout << "Trade eval: " << eval;
 }
 
 void utils_running() {
@@ -69,6 +107,8 @@ int cmd_search(std::string user_input) {
         std::cout << "filter disabled.\n\n";
     } else if (user_input == "/utils-running") {
         utils_running();
+    } else if (user_input == "/trade-eval") {
+        trade_eval();
     }
 
     return 0;
@@ -93,13 +133,13 @@ std::string query_interface(std::string msg) {
 
     std::cout << msg;
 
-    std::cin >> str;
-
-    cmd_wait = false;
+    std::getline(std::cin, str);
 
     mutex.lock();
     str_buffer = "enter a cmd: ";
     mutex.unlock();
+
+    cmd_wait = false;
 
     return str;
 }
@@ -110,9 +150,9 @@ void cli() {
     int res = cmd_search(user_input);
 
     if (res != 0) {
-        std::cout << "cmd not found.\n\n";
+        std::cout << "\ncmd not found.\n\n";
     } else {
-        std::cout << "cmd success.\n\n";
+        std::cout << "\n\ncmd success.\n\n";
     }
 
     cli();
