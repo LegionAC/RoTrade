@@ -105,6 +105,12 @@ void ad_loop(std::string timer, json j) {
 }
 
 void start_trade_ads() {
+    if (switch_list.ad_switch) {
+        std::cout << "\nTrade ads already running. Use /disable-ads.\n\n";
+        return;
+    }
+    switch_list.ad_switch = true;
+
     json j = ad_user_query();
 
     std::string timer;

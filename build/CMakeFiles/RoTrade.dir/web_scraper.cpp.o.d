@@ -1,5 +1,5 @@
 CMakeFiles/RoTrade.dir/web_scraper.cpp.o: \
- /home/legion/Documents/RoTradeV2.0BETAcpp/src/web_scraper.cpp \
+ /home/legion/Documents/RoTradeV3.0BETAcpp/src/web_scraper.cpp \
  /usr/include/stdc-predef.h /usr/include/c++/16/iostream \
  /usr/include/c++/16/bits/requires_hosted.h \
  /usr/include/c++/16/x86_64-pc-linux-gnu/bits/c++config.h \
@@ -138,7 +138,7 @@ CMakeFiles/RoTrade.dir/web_scraper.cpp.o: \
  /usr/include/c++/16/bits/ostream_print.h \
  /usr/include/c++/16/bits/ostream.tcc /usr/include/c++/16/istream \
  /usr/include/c++/16/bits/istream.tcc \
- /home/legion/Documents/RoTradeV2.0BETAcpp/src/httplib.h \
+ /home/legion/Documents/RoTradeV3.0BETAcpp/src/httplib.h \
  /usr/include/arpa/inet.h /usr/include/netinet/in.h \
  /usr/include/bits/stdint-uintn.h /usr/include/sys/socket.h \
  /usr/include/bits/types/struct_iovec.h /usr/include/bits/socket.h \
@@ -333,7 +333,7 @@ CMakeFiles/RoTrade.dir/web_scraper.cpp.o: \
  /usr/include/gumbo.h \
  /usr/lib/gcc/x86_64-pc-linux-gnu/16/include/stdbool.h \
  /usr/include/tag_enum.h \
- /home/legion/Documents/RoTradeV2.0BETAcpp/src/feature_utils.h \
+ /home/legion/Documents/RoTradeV3.0BETAcpp/src/feature_utils.h \
  /usr/include/nlohmann/json.hpp /usr/include/c++/16/iterator \
  /usr/include/c++/16/bits/stream_iterator.h \
  /usr/include/nlohmann/adl_serializer.hpp \

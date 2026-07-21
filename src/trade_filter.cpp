@@ -1,4 +1,5 @@
 #include "feature_utils.h"
+#define CPPHTTPLIB_OPENSSL_SUPPORT
 #include "httplib.h"
 #include <nlohmann/json.hpp>
 #include <vector>
@@ -9,8 +10,6 @@
 using json = nlohmann::json;
 using namespace std::this_thread;
 using namespace std::chrono;
-
-httplib::Client filter_cli("https://trades.roblox.com");
 
 httplib::Headers filter_headers({
     {"Cookie", ""},
@@ -43,7 +42,7 @@ void decline_trades(json trades, query_info info) {
 
         std::string trade_id = v["id"].dump();
 
-        auto res = filter_cli.Get("/v2/trades/" + trade_id, filter_headers);
+        auto res = trades_api.Get("/v2/trades/" + trade_id, filter_headers);
 
         json details = json::parse(res->body);
 
@@ -64,14 +63,14 @@ void decline_trades(json trades, query_info info) {
         double eval = eval_trade(offer_itemIDs, receive_itemIDs, offer_robux, receive_robux);
 
         if (eval < std::stod(info.baseline)) {
-            auto res = filter_cli.Post("/v1/trades/" + trade_id + "/decline", filter_headers);
+            auto res = trades_api.Post("/v1/trades/" + trade_id + "/decline", filter_headers);
             trades_declined += 1;
 
             if (res->status == 403) {
                 std::string csrf = res->get_header_value("x-csrf-token");
                 filter_headers.find("X-CSRF-TOKEN")->second = csrf;
 
-                auto res = filter_cli.Post("/v1/trades/" + trade_id + "/decline", filter_headers);
+                auto res = trades_api.Post("/v1/trades/" + trade_id + "/decline", filter_headers);
             }
         } else {
             trades_accepted += 1;
@@ -85,11 +84,11 @@ void decline_trades(json trades, query_info info) {
 
 void filter_loop(query_info info) {
     while (switch_list.filter_switch) {
-        auto res = filter_cli.Get("/v1/trades/Inbound", filter_headers);
+        auto res = trades_api.Get("/v1/trades/Inbound?limit=100", filter_headers);
 
         if (res->status != 200) {
             switch_list.filter_switch = false;
-            std::string err_msg = res->status == 401 ? "Invalid user information or cookie expired. Retry /trade-filter." : "Unknown error occurred. Please screenshot and create a github issue.\n" + res->body;
+            std::string err_msg = res->status == 401 ? "Invalid cookie. Retry /trade-filter." : "Unknown error occurred. Please screenshot and create a github issue.\n" + res->body;
             ping_cmd_line(err_msg);
             switch_list.filter_switch = false;
             break;
@@ -104,6 +103,12 @@ void filter_loop(query_info info) {
 }
 
 void filter_trades() {
+    if (switch_list.filter_switch == true) {
+        std::cout << "\nTrade filter already running. Use /disable-filter.\n\n";
+        return;
+    }
+    switch_list.filter_switch = true;
+
     query_info info = filter_user_query();
 
     filter_headers.find("Cookie")->second = ".ROBLOSECURITY=" + info.cookie;

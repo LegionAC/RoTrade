@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/legion/Documents/RoTradeV2.0BETAcpp/src
+CMAKE_SOURCE_DIR = /home/legion/Documents/RoTradeV3.0BETAcpp/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/legion/Documents/RoTradeV2.0BETAcpp/build
+CMAKE_BINARY_DIR = /home/legion/Documents/RoTradeV3.0BETAcpp/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/RoTrade.dir/depend.make
@@ -72,106 +72,121 @@ include CMakeFiles/RoTrade.dir/flags.make
 CMakeFiles/RoTrade.dir/codegen:
 .PHONY : CMakeFiles/RoTrade.dir/codegen
 
+CMakeFiles/RoTrade.dir/auto_trade_poster.cpp.o: CMakeFiles/RoTrade.dir/flags.make
+CMakeFiles/RoTrade.dir/auto_trade_poster.cpp.o: /home/legion/Documents/RoTradeV3.0BETAcpp/src/auto_trade_poster.cpp
+CMakeFiles/RoTrade.dir/auto_trade_poster.cpp.o: CMakeFiles/RoTrade.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/legion/Documents/RoTradeV3.0BETAcpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/RoTrade.dir/auto_trade_poster.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/RoTrade.dir/auto_trade_poster.cpp.o -MF CMakeFiles/RoTrade.dir/auto_trade_poster.cpp.o.d -o CMakeFiles/RoTrade.dir/auto_trade_poster.cpp.o -c /home/legion/Documents/RoTradeV3.0BETAcpp/src/auto_trade_poster.cpp
+
+CMakeFiles/RoTrade.dir/auto_trade_poster.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/RoTrade.dir/auto_trade_poster.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/legion/Documents/RoTradeV3.0BETAcpp/src/auto_trade_poster.cpp > CMakeFiles/RoTrade.dir/auto_trade_poster.cpp.i
+
+CMakeFiles/RoTrade.dir/auto_trade_poster.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/RoTrade.dir/auto_trade_poster.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/legion/Documents/RoTradeV3.0BETAcpp/src/auto_trade_poster.cpp -o CMakeFiles/RoTrade.dir/auto_trade_poster.cpp.s
+
 CMakeFiles/RoTrade.dir/cli.cpp.o: CMakeFiles/RoTrade.dir/flags.make
-CMakeFiles/RoTrade.dir/cli.cpp.o: /home/legion/Documents/RoTradeV2.0BETAcpp/src/cli.cpp
+CMakeFiles/RoTrade.dir/cli.cpp.o: /home/legion/Documents/RoTradeV3.0BETAcpp/src/cli.cpp
 CMakeFiles/RoTrade.dir/cli.cpp.o: CMakeFiles/RoTrade.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/legion/Documents/RoTradeV2.0BETAcpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/RoTrade.dir/cli.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/RoTrade.dir/cli.cpp.o -MF CMakeFiles/RoTrade.dir/cli.cpp.o.d -o CMakeFiles/RoTrade.dir/cli.cpp.o -c /home/legion/Documents/RoTradeV2.0BETAcpp/src/cli.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/legion/Documents/RoTradeV3.0BETAcpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/RoTrade.dir/cli.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/RoTrade.dir/cli.cpp.o -MF CMakeFiles/RoTrade.dir/cli.cpp.o.d -o CMakeFiles/RoTrade.dir/cli.cpp.o -c /home/legion/Documents/RoTradeV3.0BETAcpp/src/cli.cpp
 
 CMakeFiles/RoTrade.dir/cli.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/RoTrade.dir/cli.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/legion/Documents/RoTradeV2.0BETAcpp/src/cli.cpp > CMakeFiles/RoTrade.dir/cli.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/legion/Documents/RoTradeV3.0BETAcpp/src/cli.cpp > CMakeFiles/RoTrade.dir/cli.cpp.i
 
 CMakeFiles/RoTrade.dir/cli.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/RoTrade.dir/cli.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/legion/Documents/RoTradeV2.0BETAcpp/src/cli.cpp -o CMakeFiles/RoTrade.dir/cli.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/legion/Documents/RoTradeV3.0BETAcpp/src/cli.cpp -o CMakeFiles/RoTrade.dir/cli.cpp.s
 
 CMakeFiles/RoTrade.dir/data_query.cpp.o: CMakeFiles/RoTrade.dir/flags.make
-CMakeFiles/RoTrade.dir/data_query.cpp.o: /home/legion/Documents/RoTradeV2.0BETAcpp/src/data_query.cpp
+CMakeFiles/RoTrade.dir/data_query.cpp.o: /home/legion/Documents/RoTradeV3.0BETAcpp/src/data_query.cpp
 CMakeFiles/RoTrade.dir/data_query.cpp.o: CMakeFiles/RoTrade.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/legion/Documents/RoTradeV2.0BETAcpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/RoTrade.dir/data_query.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/RoTrade.dir/data_query.cpp.o -MF CMakeFiles/RoTrade.dir/data_query.cpp.o.d -o CMakeFiles/RoTrade.dir/data_query.cpp.o -c /home/legion/Documents/RoTradeV2.0BETAcpp/src/data_query.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/legion/Documents/RoTradeV3.0BETAcpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/RoTrade.dir/data_query.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/RoTrade.dir/data_query.cpp.o -MF CMakeFiles/RoTrade.dir/data_query.cpp.o.d -o CMakeFiles/RoTrade.dir/data_query.cpp.o -c /home/legion/Documents/RoTradeV3.0BETAcpp/src/data_query.cpp
 
 CMakeFiles/RoTrade.dir/data_query.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/RoTrade.dir/data_query.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/legion/Documents/RoTradeV2.0BETAcpp/src/data_query.cpp > CMakeFiles/RoTrade.dir/data_query.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/legion/Documents/RoTradeV3.0BETAcpp/src/data_query.cpp > CMakeFiles/RoTrade.dir/data_query.cpp.i
 
 CMakeFiles/RoTrade.dir/data_query.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/RoTrade.dir/data_query.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/legion/Documents/RoTradeV2.0BETAcpp/src/data_query.cpp -o CMakeFiles/RoTrade.dir/data_query.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/legion/Documents/RoTradeV3.0BETAcpp/src/data_query.cpp -o CMakeFiles/RoTrade.dir/data_query.cpp.s
 
 CMakeFiles/RoTrade.dir/main.cpp.o: CMakeFiles/RoTrade.dir/flags.make
-CMakeFiles/RoTrade.dir/main.cpp.o: /home/legion/Documents/RoTradeV2.0BETAcpp/src/main.cpp
+CMakeFiles/RoTrade.dir/main.cpp.o: /home/legion/Documents/RoTradeV3.0BETAcpp/src/main.cpp
 CMakeFiles/RoTrade.dir/main.cpp.o: CMakeFiles/RoTrade.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/legion/Documents/RoTradeV2.0BETAcpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/RoTrade.dir/main.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/RoTrade.dir/main.cpp.o -MF CMakeFiles/RoTrade.dir/main.cpp.o.d -o CMakeFiles/RoTrade.dir/main.cpp.o -c /home/legion/Documents/RoTradeV2.0BETAcpp/src/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/legion/Documents/RoTradeV3.0BETAcpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/RoTrade.dir/main.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/RoTrade.dir/main.cpp.o -MF CMakeFiles/RoTrade.dir/main.cpp.o.d -o CMakeFiles/RoTrade.dir/main.cpp.o -c /home/legion/Documents/RoTradeV3.0BETAcpp/src/main.cpp
 
 CMakeFiles/RoTrade.dir/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/RoTrade.dir/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/legion/Documents/RoTradeV2.0BETAcpp/src/main.cpp > CMakeFiles/RoTrade.dir/main.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/legion/Documents/RoTradeV3.0BETAcpp/src/main.cpp > CMakeFiles/RoTrade.dir/main.cpp.i
 
 CMakeFiles/RoTrade.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/RoTrade.dir/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/legion/Documents/RoTradeV2.0BETAcpp/src/main.cpp -o CMakeFiles/RoTrade.dir/main.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/legion/Documents/RoTradeV3.0BETAcpp/src/main.cpp -o CMakeFiles/RoTrade.dir/main.cpp.s
 
 CMakeFiles/RoTrade.dir/trade_ads.cpp.o: CMakeFiles/RoTrade.dir/flags.make
-CMakeFiles/RoTrade.dir/trade_ads.cpp.o: /home/legion/Documents/RoTradeV2.0BETAcpp/src/trade_ads.cpp
+CMakeFiles/RoTrade.dir/trade_ads.cpp.o: /home/legion/Documents/RoTradeV3.0BETAcpp/src/trade_ads.cpp
 CMakeFiles/RoTrade.dir/trade_ads.cpp.o: CMakeFiles/RoTrade.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/legion/Documents/RoTradeV2.0BETAcpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/RoTrade.dir/trade_ads.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/RoTrade.dir/trade_ads.cpp.o -MF CMakeFiles/RoTrade.dir/trade_ads.cpp.o.d -o CMakeFiles/RoTrade.dir/trade_ads.cpp.o -c /home/legion/Documents/RoTradeV2.0BETAcpp/src/trade_ads.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/legion/Documents/RoTradeV3.0BETAcpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/RoTrade.dir/trade_ads.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/RoTrade.dir/trade_ads.cpp.o -MF CMakeFiles/RoTrade.dir/trade_ads.cpp.o.d -o CMakeFiles/RoTrade.dir/trade_ads.cpp.o -c /home/legion/Documents/RoTradeV3.0BETAcpp/src/trade_ads.cpp
 
 CMakeFiles/RoTrade.dir/trade_ads.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/RoTrade.dir/trade_ads.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/legion/Documents/RoTradeV2.0BETAcpp/src/trade_ads.cpp > CMakeFiles/RoTrade.dir/trade_ads.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/legion/Documents/RoTradeV3.0BETAcpp/src/trade_ads.cpp > CMakeFiles/RoTrade.dir/trade_ads.cpp.i
 
 CMakeFiles/RoTrade.dir/trade_ads.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/RoTrade.dir/trade_ads.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/legion/Documents/RoTradeV2.0BETAcpp/src/trade_ads.cpp -o CMakeFiles/RoTrade.dir/trade_ads.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/legion/Documents/RoTradeV3.0BETAcpp/src/trade_ads.cpp -o CMakeFiles/RoTrade.dir/trade_ads.cpp.s
 
 CMakeFiles/RoTrade.dir/trade_eval.cpp.o: CMakeFiles/RoTrade.dir/flags.make
-CMakeFiles/RoTrade.dir/trade_eval.cpp.o: /home/legion/Documents/RoTradeV2.0BETAcpp/src/trade_eval.cpp
+CMakeFiles/RoTrade.dir/trade_eval.cpp.o: /home/legion/Documents/RoTradeV3.0BETAcpp/src/trade_eval.cpp
 CMakeFiles/RoTrade.dir/trade_eval.cpp.o: CMakeFiles/RoTrade.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/legion/Documents/RoTradeV2.0BETAcpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/RoTrade.dir/trade_eval.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/RoTrade.dir/trade_eval.cpp.o -MF CMakeFiles/RoTrade.dir/trade_eval.cpp.o.d -o CMakeFiles/RoTrade.dir/trade_eval.cpp.o -c /home/legion/Documents/RoTradeV2.0BETAcpp/src/trade_eval.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/legion/Documents/RoTradeV3.0BETAcpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/RoTrade.dir/trade_eval.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/RoTrade.dir/trade_eval.cpp.o -MF CMakeFiles/RoTrade.dir/trade_eval.cpp.o.d -o CMakeFiles/RoTrade.dir/trade_eval.cpp.o -c /home/legion/Documents/RoTradeV3.0BETAcpp/src/trade_eval.cpp
 
 CMakeFiles/RoTrade.dir/trade_eval.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/RoTrade.dir/trade_eval.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/legion/Documents/RoTradeV2.0BETAcpp/src/trade_eval.cpp > CMakeFiles/RoTrade.dir/trade_eval.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/legion/Documents/RoTradeV3.0BETAcpp/src/trade_eval.cpp > CMakeFiles/RoTrade.dir/trade_eval.cpp.i
 
 CMakeFiles/RoTrade.dir/trade_eval.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/RoTrade.dir/trade_eval.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/legion/Documents/RoTradeV2.0BETAcpp/src/trade_eval.cpp -o CMakeFiles/RoTrade.dir/trade_eval.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/legion/Documents/RoTradeV3.0BETAcpp/src/trade_eval.cpp -o CMakeFiles/RoTrade.dir/trade_eval.cpp.s
 
 CMakeFiles/RoTrade.dir/trade_filter.cpp.o: CMakeFiles/RoTrade.dir/flags.make
-CMakeFiles/RoTrade.dir/trade_filter.cpp.o: /home/legion/Documents/RoTradeV2.0BETAcpp/src/trade_filter.cpp
+CMakeFiles/RoTrade.dir/trade_filter.cpp.o: /home/legion/Documents/RoTradeV3.0BETAcpp/src/trade_filter.cpp
 CMakeFiles/RoTrade.dir/trade_filter.cpp.o: CMakeFiles/RoTrade.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/legion/Documents/RoTradeV2.0BETAcpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/RoTrade.dir/trade_filter.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/RoTrade.dir/trade_filter.cpp.o -MF CMakeFiles/RoTrade.dir/trade_filter.cpp.o.d -o CMakeFiles/RoTrade.dir/trade_filter.cpp.o -c /home/legion/Documents/RoTradeV2.0BETAcpp/src/trade_filter.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/legion/Documents/RoTradeV3.0BETAcpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/RoTrade.dir/trade_filter.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/RoTrade.dir/trade_filter.cpp.o -MF CMakeFiles/RoTrade.dir/trade_filter.cpp.o.d -o CMakeFiles/RoTrade.dir/trade_filter.cpp.o -c /home/legion/Documents/RoTradeV3.0BETAcpp/src/trade_filter.cpp
 
 CMakeFiles/RoTrade.dir/trade_filter.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/RoTrade.dir/trade_filter.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/legion/Documents/RoTradeV2.0BETAcpp/src/trade_filter.cpp > CMakeFiles/RoTrade.dir/trade_filter.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/legion/Documents/RoTradeV3.0BETAcpp/src/trade_filter.cpp > CMakeFiles/RoTrade.dir/trade_filter.cpp.i
 
 CMakeFiles/RoTrade.dir/trade_filter.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/RoTrade.dir/trade_filter.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/legion/Documents/RoTradeV2.0BETAcpp/src/trade_filter.cpp -o CMakeFiles/RoTrade.dir/trade_filter.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/legion/Documents/RoTradeV3.0BETAcpp/src/trade_filter.cpp -o CMakeFiles/RoTrade.dir/trade_filter.cpp.s
 
 CMakeFiles/RoTrade.dir/web_scraper.cpp.o: CMakeFiles/RoTrade.dir/flags.make
-CMakeFiles/RoTrade.dir/web_scraper.cpp.o: /home/legion/Documents/RoTradeV2.0BETAcpp/src/web_scraper.cpp
+CMakeFiles/RoTrade.dir/web_scraper.cpp.o: /home/legion/Documents/RoTradeV3.0BETAcpp/src/web_scraper.cpp
 CMakeFiles/RoTrade.dir/web_scraper.cpp.o: CMakeFiles/RoTrade.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/legion/Documents/RoTradeV2.0BETAcpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/RoTrade.dir/web_scraper.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/RoTrade.dir/web_scraper.cpp.o -MF CMakeFiles/RoTrade.dir/web_scraper.cpp.o.d -o CMakeFiles/RoTrade.dir/web_scraper.cpp.o -c /home/legion/Documents/RoTradeV2.0BETAcpp/src/web_scraper.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/legion/Documents/RoTradeV3.0BETAcpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/RoTrade.dir/web_scraper.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/RoTrade.dir/web_scraper.cpp.o -MF CMakeFiles/RoTrade.dir/web_scraper.cpp.o.d -o CMakeFiles/RoTrade.dir/web_scraper.cpp.o -c /home/legion/Documents/RoTradeV3.0BETAcpp/src/web_scraper.cpp
 
 CMakeFiles/RoTrade.dir/web_scraper.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/RoTrade.dir/web_scraper.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/legion/Documents/RoTradeV2.0BETAcpp/src/web_scraper.cpp > CMakeFiles/RoTrade.dir/web_scraper.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/legion/Documents/RoTradeV3.0BETAcpp/src/web_scraper.cpp > CMakeFiles/RoTrade.dir/web_scraper.cpp.i
 
 CMakeFiles/RoTrade.dir/web_scraper.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/RoTrade.dir/web_scraper.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/legion/Documents/RoTradeV2.0BETAcpp/src/web_scraper.cpp -o CMakeFiles/RoTrade.dir/web_scraper.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/legion/Documents/RoTradeV3.0BETAcpp/src/web_scraper.cpp -o CMakeFiles/RoTrade.dir/web_scraper.cpp.s
 
 # Object files for target RoTrade
 RoTrade_OBJECTS = \
+"CMakeFiles/RoTrade.dir/auto_trade_poster.cpp.o" \
 "CMakeFiles/RoTrade.dir/cli.cpp.o" \
 "CMakeFiles/RoTrade.dir/data_query.cpp.o" \
 "CMakeFiles/RoTrade.dir/main.cpp.o" \
@@ -183,6 +198,7 @@ RoTrade_OBJECTS = \
 # External object files for target RoTrade
 RoTrade_EXTERNAL_OBJECTS =
 
+RoTrade: CMakeFiles/RoTrade.dir/auto_trade_poster.cpp.o
 RoTrade: CMakeFiles/RoTrade.dir/cli.cpp.o
 RoTrade: CMakeFiles/RoTrade.dir/data_query.cpp.o
 RoTrade: CMakeFiles/RoTrade.dir/main.cpp.o
@@ -196,7 +212,7 @@ RoTrade: /usr/lib/libssl.so
 RoTrade: /usr/lib/libcrypto.so
 RoTrade: /usr/lib/libgumbo.so
 RoTrade: CMakeFiles/RoTrade.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/legion/Documents/RoTradeV2.0BETAcpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable RoTrade"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/legion/Documents/RoTradeV3.0BETAcpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking CXX executable RoTrade"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/RoTrade.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -208,6 +224,6 @@ CMakeFiles/RoTrade.dir/clean:
 .PHONY : CMakeFiles/RoTrade.dir/clean
 
 CMakeFiles/RoTrade.dir/depend:
-	cd /home/legion/Documents/RoTradeV2.0BETAcpp/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/legion/Documents/RoTradeV2.0BETAcpp/src /home/legion/Documents/RoTradeV2.0BETAcpp/src /home/legion/Documents/RoTradeV2.0BETAcpp/build /home/legion/Documents/RoTradeV2.0BETAcpp/build /home/legion/Documents/RoTradeV2.0BETAcpp/build/CMakeFiles/RoTrade.dir/DependInfo.cmake "--color=$(COLOR)" RoTrade
+	cd /home/legion/Documents/RoTradeV3.0BETAcpp/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/legion/Documents/RoTradeV3.0BETAcpp/src /home/legion/Documents/RoTradeV3.0BETAcpp/src /home/legion/Documents/RoTradeV3.0BETAcpp/build /home/legion/Documents/RoTradeV3.0BETAcpp/build /home/legion/Documents/RoTradeV3.0BETAcpp/build/CMakeFiles/RoTrade.dir/DependInfo.cmake "--color=$(COLOR)" RoTrade
 .PHONY : CMakeFiles/RoTrade.dir/depend
 

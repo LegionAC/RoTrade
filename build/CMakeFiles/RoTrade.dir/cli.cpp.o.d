@@ -1,5 +1,5 @@
 CMakeFiles/RoTrade.dir/cli.cpp.o: \
- /home/legion/Documents/RoTradeV2.0BETAcpp/src/cli.cpp \
+ /home/legion/Documents/RoTradeV3.0BETAcpp/src/cli.cpp \
  /usr/include/stdc-predef.h /usr/include/c++/16/iostream \
  /usr/include/c++/16/bits/requires_hosted.h \
  /usr/include/c++/16/x86_64-pc-linux-gnu/bits/c++config.h \
@@ -149,8 +149,8 @@ CMakeFiles/RoTrade.dir/cli.cpp.o: \
  /usr/include/c++/16/bits/stl_tempbuf.h \
  /usr/include/c++/16/pstl/glue_algorithm_defs.h \
  /usr/include/c++/16/pstl/execution_defs.h \
- /home/legion/Documents/RoTradeV2.0BETAcpp/src/feature_utils.h \
- /home/legion/Documents/RoTradeV2.0BETAcpp/src/httplib.h \
+ /home/legion/Documents/RoTradeV3.0BETAcpp/src/feature_utils.h \
+ /home/legion/Documents/RoTradeV3.0BETAcpp/src/httplib.h \
  /usr/include/arpa/inet.h /usr/include/netinet/in.h \
  /usr/include/bits/stdint-uintn.h /usr/include/sys/socket.h \
  /usr/include/bits/types/struct_iovec.h /usr/include/bits/socket.h \

@@ -1,5 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/RoTrade.dir/link.d"
+  "CMakeFiles/RoTrade.dir/auto_trade_poster.cpp.o"
+  "CMakeFiles/RoTrade.dir/auto_trade_poster.cpp.o.d"
   "CMakeFiles/RoTrade.dir/cli.cpp.o"
   "CMakeFiles/RoTrade.dir/cli.cpp.o.d"
   "CMakeFiles/RoTrade.dir/data_query.cpp.o"

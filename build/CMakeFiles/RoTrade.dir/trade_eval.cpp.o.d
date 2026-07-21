@@ -1,5 +1,5 @@
 CMakeFiles/RoTrade.dir/trade_eval.cpp.o: \
- /home/legion/Documents/RoTradeV2.0BETAcpp/src/trade_eval.cpp \
+ /home/legion/Documents/RoTradeV3.0BETAcpp/src/trade_eval.cpp \
  /usr/include/stdc-predef.h /usr/include/c++/16/vector \
  /usr/include/c++/16/bits/requires_hosted.h \
  /usr/include/c++/16/x86_64-pc-linux-gnu/bits/c++config.h \
@@ -270,8 +270,8 @@ CMakeFiles/RoTrade.dir/trade_eval.cpp.o: \
  /usr/include/nlohmann/ordered_map.hpp /usr/include/c++/16/any \
  /usr/include/nlohmann/detail/macro_unscope.hpp \
  /usr/include/nlohmann/thirdparty/hedley/hedley_undef.hpp \
- /home/legion/Documents/RoTradeV2.0BETAcpp/src/feature_utils.h \
- /home/legion/Documents/RoTradeV2.0BETAcpp/src/httplib.h \
+ /home/legion/Documents/RoTradeV3.0BETAcpp/src/feature_utils.h \
+ /home/legion/Documents/RoTradeV3.0BETAcpp/src/httplib.h \
  /usr/include/arpa/inet.h /usr/include/netinet/in.h \
  /usr/include/sys/socket.h /usr/include/bits/types/struct_iovec.h \
  /usr/include/bits/socket.h /usr/include/bits/socket_type.h \

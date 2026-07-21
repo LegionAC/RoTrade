@@ -2,6 +2,7 @@ RoTrade: \
   /usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/Scrt1.o \
   /usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/crti.o \
   /usr/lib/gcc/x86_64-pc-linux-gnu/16/crtbeginS.o \
+  CMakeFiles/RoTrade.dir/auto_trade_poster.cpp.o \
   CMakeFiles/RoTrade.dir/cli.cpp.o \
   CMakeFiles/RoTrade.dir/data_query.cpp.o \
   CMakeFiles/RoTrade.dir/main.cpp.o \
@@ -60,6 +61,8 @@ RoTrade: \
 /usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/crti.o:
 
 /usr/lib/gcc/x86_64-pc-linux-gnu/16/crtbeginS.o:
+
+CMakeFiles/RoTrade.dir/auto_trade_poster.cpp.o:
 
 CMakeFiles/RoTrade.dir/cli.cpp.o:
 

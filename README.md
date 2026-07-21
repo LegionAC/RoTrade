@@ -1,5 +1,7 @@
 Updated version of original python-written RoTrade, now with new features and written in C++.
 
+-- Version 3.0
+
 ## FEATURES
 
 <ins>Automated Trade Ad Poster:</ins>
@@ -16,8 +18,19 @@ Updated version of original python-written RoTrade, now with new features and wr
 
 <img width="778" height="179" alt="image" src="https://github.com/user-attachments/assets/15360ca9-6196-4e3f-a564-5d18295dcbcc" />
 
+<ins>Trade Evaluation:</ins>
+- RoTrade uses a pre-configured evaluation algorithm to determine trade quality.
+- Trade eval is used on other, and planned future features. 
+
 <ins>Command Line Usage:</ins>
 - The command line holds a variety of different commands, such as enabling trade ads, the trade filter, or querying/disabling enabled utilities.
 
 <ins>BELOW IS A LIST OF ALL POSSIBLE COMMANDS</ins>
 <img width="831" height="207" alt="image" src="https://github.com/user-attachments/assets/79a19917-20a4-49a0-b79e-36e2b80ac211" />
+
+<ins>PLANNED FEATURES:</ins>
+- Auto counter trade filter add-on.
+- Auto accept trade filter add-on.
+- Mass trade sender.
+- Automated mass trade sending.
+- Rolimons deals page monitor. (Purchases item if deal meets user configured requirements)

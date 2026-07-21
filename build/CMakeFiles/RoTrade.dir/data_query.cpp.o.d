@@ -1,7 +1,7 @@
 CMakeFiles/RoTrade.dir/data_query.cpp.o: \
- /home/legion/Documents/RoTradeV2.0BETAcpp/src/data_query.cpp \
+ /home/legion/Documents/RoTradeV3.0BETAcpp/src/data_query.cpp \
  /usr/include/stdc-predef.h \
- /home/legion/Documents/RoTradeV2.0BETAcpp/src/httplib.h \
+ /home/legion/Documents/RoTradeV3.0BETAcpp/src/httplib.h \
  /usr/include/arpa/inet.h /usr/include/features.h \
  /usr/include/features-time64.h /usr/include/bits/wordsize.h \
  /usr/include/bits/timesize.h /usr/include/sys/cdefs.h \
@@ -325,7 +325,7 @@ CMakeFiles/RoTrade.dir/data_query.cpp.o: \
  /usr/include/openssl/tls1.h /usr/include/openssl/dtls1.h \
  /usr/include/openssl/srtp.h /usr/include/openssl/quic.h \
  /usr/include/openssl/x509v3.h /usr/include/openssl/x509v3err.h \
- /home/legion/Documents/RoTradeV2.0BETAcpp/src/feature_utils.h \
+ /home/legion/Documents/RoTradeV3.0BETAcpp/src/feature_utils.h \
  /usr/include/nlohmann/json.hpp /usr/include/c++/16/iterator \
  /usr/include/c++/16/bits/stream_iterator.h \
  /usr/include/nlohmann/adl_serializer.hpp \

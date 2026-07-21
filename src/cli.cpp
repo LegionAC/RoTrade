@@ -87,15 +87,12 @@ int cmd_search(std::string user_input) {
     } else if (user_input == "/help") {
         help_cmd();
     } else if (user_input == "/auto-ads") {
-        switch_list.ad_switch = true;
         start_trade_ads();
     } else if (user_input == "/trade-filter") {
-        switch_list.filter_switch = true;
         filter_trades();
     } else if (user_input == "/disable-all") {
         switch_list.ad_switch = false;
         switch_list.filter_switch = false;
-
         std::cout << "all processes disabled.\n\n";
     } else if (user_input == "/disable-ads") {
         switch_list.ad_switch = false;

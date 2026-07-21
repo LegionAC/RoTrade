@@ -5,7 +5,7 @@
 #include "feature_utils.h"
 #define CPPHTTPLIB_OPENSSL_SUPPORT
 #include "httplib.h"
-#include <cmath>
+#include <algorithm>
 
 using json = nlohmann::json;
 
@@ -38,11 +38,7 @@ int value_sum(std::vector<item_info> offer, int robux) {
     rap += robux;
 
     for (item_info v : offer) {
-        if (v.value == v.rap && v.rap > v.extra_rap) {
-            rap += v.extra_rap;
-        } else {
-            rap += v.value;
-        }
+        rap += v.value;
     }
 
     return rap;
@@ -91,22 +87,14 @@ double eval_sum(std::vector<item_info> offer, std::vector<item_info> receive, in
         double dist_to_baseline = overpay - baseline; // overpay will be positive or negative to reward
         score -= dist_to_baseline / offer_sum;
     } else {
-        score -= overpay / offer_sum;
+        score -= (double)overpay / offer_sum;
     }
 
     score += demand_sum(offer);
 
     score -= demand_sum(receive);
-    
-    for (item_info v : offer) {
-        score -= v.ADS / 100;
-    }
 
-    for (item_info v : receive) {
-        score += v.ADS / 100;
-    }
-
-    return score;
+    return std::clamp(score, -1.0, 1.0);
 }
 
 double eval_trade(std::vector<std::string> offer_ids, std::vector<std::string> receive_ids, int offer_robux, int receive_robux) {

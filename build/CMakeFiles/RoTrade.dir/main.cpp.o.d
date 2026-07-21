@@ -1,7 +1,7 @@
 CMakeFiles/RoTrade.dir/main.cpp.o: \
- /home/legion/Documents/RoTradeV2.0BETAcpp/src/main.cpp \
+ /home/legion/Documents/RoTradeV3.0BETAcpp/src/main.cpp \
  /usr/include/stdc-predef.h \
- /home/legion/Documents/RoTradeV2.0BETAcpp/src/feature_utils.h \
+ /home/legion/Documents/RoTradeV3.0BETAcpp/src/feature_utils.h \
  /usr/include/c++/16/vector /usr/include/c++/16/bits/requires_hosted.h \
  /usr/include/c++/16/x86_64-pc-linux-gnu/bits/c++config.h \
  /usr/include/c++/16/x86_64-pc-linux-gnu/bits/os_defines.h \
@@ -101,7 +101,7 @@ CMakeFiles/RoTrade.dir/main.cpp.o: \
  /usr/include/asm-generic/errno.h /usr/include/asm-generic/errno-base.h \
  /usr/include/bits/types/error_t.h /usr/include/c++/16/bits/charconv.h \
  /usr/include/c++/16/bits/basic_string.tcc \
- /home/legion/Documents/RoTradeV2.0BETAcpp/src/httplib.h \
+ /home/legion/Documents/RoTradeV3.0BETAcpp/src/httplib.h \
  /usr/include/arpa/inet.h /usr/include/netinet/in.h \
  /usr/include/bits/stdint-uintn.h /usr/include/sys/socket.h \
  /usr/include/bits/types/struct_iovec.h /usr/include/bits/socket.h \

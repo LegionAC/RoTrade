@@ -16,6 +16,7 @@
                 "cli.cpp",
                 "web_scraper.cpp",
                 "data_query.cpp",
+                "auto_trade_poster.cpp",
                 "-lssl",
                 "-lcrypto",
                 "-lgumbo"

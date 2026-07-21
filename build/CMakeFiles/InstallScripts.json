@@ -1,7 +1,7 @@
 {
 	"InstallScripts" : 
 	[
-		"/home/legion/Documents/RoTradeV2.0BETAcpp/build/cmake_install.cmake"
+		"/home/legion/Documents/RoTradeV3.0BETAcpp/build/cmake_install.cmake"
 	],
 	"Parallel" : false
 }
