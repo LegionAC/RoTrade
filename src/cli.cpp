@@ -149,7 +149,7 @@ void cli() {
     if (res != 0) {
         std::cout << "\ncmd not found.\n\n";
     } else {
-        std::cout << "\n\ncmd success.\n\n";
+        std::cout << "\ncmd success.\n\n";
     }
 
     cli();
