@@ -12,7 +12,7 @@ using namespace std::this_thread;
 using namespace std::chrono;
 
 httplib::Headers ad_headers({
-    {"Cookie", ""}
+    {"Cookie", rblx_cookie}
 });
 
 auto send_trade(json j, int timer) {

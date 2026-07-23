@@ -20,6 +20,14 @@ struct item_info {
 struct switches {
     bool ad_switch = false;
     bool filter_switch = false;
+    bool filter_decline = false;
+    bool filter_accept = false;
+    bool filter_counter = false;
+};
+
+struct filter_info {
+    std::string baseline;
+    std::string cooldown;
 };
 
 extern double eval_trade(std::vector<std::string> offer_ids, std::vector<std::string> receive_ids, int offer_robux, int receive_robux);
@@ -30,7 +38,7 @@ extern void ping_cmd_line(std::string msg);
 extern std::string query_interface(std::string msg);
 extern item_info item_query(std::string item_id);
 extern item_info get_item_info(std::string item_id, json item_data);
-extern int query_trades_remaining();
+extern filter_info filter_user_query();
 
 inline switches switch_list;
 inline bool cmd_wait;
@@ -42,10 +50,6 @@ inline httplib::Client inventory_api("https://inventory.roblox.com");
 inline httplib::Client trades_api("https://trades.roblox.com");
 inline std::string rblx_cookie;
 inline std::string roli_cookie;
+inline filter_info filter_data;
 
-
-#endif
-
-#ifndef CPPHTTPLIB_OPENSSL_SUPPORT
-#define CPPHTTPLIB_OPENSSL_SUPPORT
 #endif

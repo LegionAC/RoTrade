@@ -7,7 +7,7 @@
 #include <mutex>
 #include <cctype>
 
-std::vector<std::string> cmd_line = {"/help", "/disable-all", "/auto-ads", "/disable-ads", "/trade-filter", "/disable-filter", "/utils-running", "/trade-eval"}; // /auto-trade is a planned feature.
+std::vector<std::string> cmd_line = {"/help", "/disable-all", "/auto-ads", "/disable-ads", "/auto-decline", "/auto-accept", "/auto-counter", "/disable-filter", "/utils-running", "/trade-eval"}; // /auto-trade is a planned feature.
 
 std::mutex mutex;
 
@@ -16,10 +16,12 @@ void help_cmd() {
     std::cout << "/disable-all disables all currently running RoTrade processes.\n";
     std::cout << "/auto-ads: sends trades automatically on Rolimons.\n";
     std::cout << "/disable-ads: disables automated ads.\n";
-    std::cout << "/trade-filter: automatically declines trades which are low quality or involve projected items.\n";
+    std::cout << "/auto-decline: automatically declines trades which are low quality or involve projected items.\n";
+    std::cout << "/auto-accept: automatically accepts trades which meet required trade score.\n";
+    std::cout << "/auto-counter: automatically counters poor trades with beneficial ones.\n";
     std::cout << "/disable-filter: disables trade filter.\n";
     std::cout << "/utils-running: returns all running utilities.\n";
-    std::cout << "/trade-eval: returns a decimal score of a given trade.\n\n";
+    std::cout << "/trade-eval: returns a decimal score of a given trade.\n";
 }
 
 std::vector<std::string> vector_csv_parse(std::string input) {
@@ -81,15 +83,26 @@ void utils_running() {
 
 int cmd_search(std::string user_input) {
     auto res = find(cmd_line.begin(), cmd_line.end(), user_input);
+    if (res == cmd_line.end()) return -1;
+
+    if (user_input != "/help" && rblx_cookie.empty()) {
+        rblx_cookie = query_interface("Enter your Roblox cookie: ");
+        roli_cookie = query_interface("\nEnter your Rolimons cookie: ");
+    }
+
+    bool filter_cmd = false;
+    if (user_input == "/auto-decline" || user_input == "/auto-accept" || user_input == "/auto-counter") filter_cmd = true;
+
+    if (filter_cmd && filter_data.baseline.empty()) {
+        filter_user_query();
+    }
     
-    if (res == cmd_line.end()) {
-        return -1;
-    } else if (user_input == "/help") {
+    if (user_input == "/help") {
         help_cmd();
     } else if (user_input == "/auto-ads") {
         start_trade_ads();
-    } else if (user_input == "/trade-filter") {
-        filter_trades();
+    } else if (user_input == "/auto-decline") {
+        switch_list.filter_decline = true;
     } else if (user_input == "/disable-all") {
         switch_list.ad_switch = false;
         switch_list.filter_switch = false;
@@ -108,6 +121,10 @@ int cmd_search(std::string user_input) {
         trade_eval();
     }
 
+    if (filter_cmd) {
+        filter_trades();
+    }
+    
     return 0;
 }
 

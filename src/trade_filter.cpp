@@ -11,33 +11,53 @@ using json = nlohmann::json;
 using namespace std::this_thread;
 using namespace std::chrono;
 
+int trades_declined{0};
+int trades_passed{0};
+int trades_countered{0};
+
 httplib::Headers filter_headers({
-    {"Cookie", ""},
+    {"Cookie", rblx_cookie},
     {"X-CSRF-TOKEN", ""}
 });
 
-struct query_info {
-    std::string cookie;
-    std::string baseline;
-    std::string cooldown;
-};
+httplib::Params params;
 
-query_info filter_user_query() {
-    query_info info;
+filter_info filter_user_query() {
+    filter_info info;
 
-    info.cookie = query_interface("Enter your Roblox cookie: ");
-
-    info.baseline = query_interface("\nEnter your maximum decline value (e.g 0.5): ");
+    info.baseline = query_interface("Enter your maximum decline value (e.g 0.5): ");
 
     info.cooldown = query_interface("\nEnter the filter cooldown period (how often the program will review trades, in seconds): ");
 
     return info;
 }
 
-void decline_trades(json trades, query_info info) {
-    int trades_declined{0};
-    int trades_accepted{0};
+void post(std::string trade_id, std::string action) {
+    auto res = trades_api.Post("/v1/trades/" + trade_id + action, filter_headers, params);
 
+    if (res->status == 403) {
+        std::string csrf = res->get_header_value("x-csrf-token");
+        filter_headers.find("X-CSRF-TOKEN")->second = csrf;
+
+        auto res = trades_api.Post("/v1/trades/" + trade_id + action, filter_headers, params);
+    }
+}
+
+void filter_action(double eval, filter_info info, std::string trade_id) {
+    double baseline = std::stod(info.baseline);
+
+    if (switch_list.filter_decline && !switch_list.filter_counter && eval < baseline) {
+        trades_declined += 1;
+        post(trade_id, "/decline");
+    }
+
+    if (switch_list.filter_accept && eval >= baseline) {
+        trades_passed += 1;
+        post(trade_id, "/accept");
+    }
+}
+
+void filter(json trades, filter_info info) {
     for (json v : trades["data"]) {
 
         std::string trade_id = v["id"].dump();
@@ -62,28 +82,20 @@ void decline_trades(json trades, query_info info) {
 
         double eval = eval_trade(offer_itemIDs, receive_itemIDs, offer_robux, receive_robux);
 
-        if (eval < std::stod(info.baseline)) {
-            auto res = trades_api.Post("/v1/trades/" + trade_id + "/decline", filter_headers);
-            trades_declined += 1;
-
-            if (res->status == 403) {
-                std::string csrf = res->get_header_value("x-csrf-token");
-                filter_headers.find("X-CSRF-TOKEN")->second = csrf;
-
-                auto res = trades_api.Post("/v1/trades/" + trade_id + "/decline", filter_headers);
-            }
-        } else {
-            trades_accepted += 1;
-        }
+        filter_action(eval, info, trade_id);
     }
 
-    if (trades_declined > 0 || trades_accepted > 0) {
-        ping_cmd_line(std::to_string(trades_declined) + " trades declined and " + std::to_string(trades_accepted) + " trades passed.");
-    }
+    std::string pass_msg = switch_list.filter_accept ? " trades accepted, " : " trades passed, ";
+    
+    ping_cmd_line(std::to_string(trades_declined) + " trades declined, " + std::to_string(trades_passed) + pass_msg + std::to_string(trades_countered) + " trades countered.");
+
+    trades_declined = 0;
+    trades_passed = 0;
+    trades_countered = 0;
 }
 
-void filter_loop(query_info info) {
-    while (switch_list.filter_switch) {
+void filter_loop(filter_info info) {
+    while (switch_list.filter_accept || switch_list.filter_decline || switch_list.filter_counter) {
         auto res = trades_api.Get("/v1/trades/Inbound?limit=100", filter_headers);
 
         if (res->status != 200) {
@@ -96,8 +108,7 @@ void filter_loop(query_info info) {
 
         json trades = json::parse(res->body);
 
-        decline_trades(trades, info);
-
+        filter(trades, info);
         sleep_for(seconds(std::stoi(info.cooldown)));
     }
 }
@@ -109,12 +120,10 @@ void filter_trades() {
     }
     switch_list.filter_switch = true;
 
-    query_info info = filter_user_query();
+    filter_headers.find("Cookie")->second = ".ROBLOSECURITY=" + rblx_cookie;
 
-    filter_headers.find("Cookie")->second = ".ROBLOSECURITY=" + info.cookie;
+    std::cout << "Trade filter starting...\n";
 
-    std::cout << "Trade filter starting...\n\n";
-
-    std::thread filter_thread(filter_loop, info);
+    std::thread filter_thread(filter_loop, filter_data);
     filter_thread.detach();
 }
