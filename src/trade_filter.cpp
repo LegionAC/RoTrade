@@ -87,7 +87,7 @@ void filter(json trades, filter_info info) {
 
     std::string pass_msg = switch_list.filter_accept ? " trades accepted, " : " trades passed, ";
     
-    ping_cmd_line(std::to_string(trades_declined) + " trades declined, " + std::to_string(trades_passed) + pass_msg + std::to_string(trades_countered) + " trades countered.");
+    if (trades_declined > 0 || trades_passed > 0 || trades_countered > 0) ping_cmd_line(std::to_string(trades_declined) + " trades declined, " + std::to_string(trades_passed) + pass_msg + std::to_string(trades_countered) + " trades countered.");
 
     trades_declined = 0;
     trades_passed = 0;

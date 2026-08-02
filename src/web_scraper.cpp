@@ -82,7 +82,7 @@ void data_query(GumboNode* child, GumboVector* children) {
             info.trend = 1;
         } else if (child_str == "Lowering") {
             info.trend = 0;
-        } else if (child_str == "Not    Assigned") {
+        } else if (child_str == "NotAssigned") {
             info.trend = -1;
         }
     }

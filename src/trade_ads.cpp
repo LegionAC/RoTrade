@@ -69,7 +69,6 @@ json ad_user_query() {
     offer = query_interface("\nEnter your offer ids: ");
     request = query_interface("\nEnter your request ids: ");
     tags = query_interface("\nEnter your request tags: ");
-    cookie = query_interface("\nEnter your Rolimons RoliVerification cookie: ");
 
     cmd_wait = false;
 

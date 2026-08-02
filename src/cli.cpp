@@ -7,6 +7,17 @@
 #include <mutex>
 #include <cctype>
 
+/*
+    to do list:
+    make menu
+    make like trade counter
+    big mass trade sender
+    good
+
+    remove racist command line
+    wait i should push changes first brb
+*/
+
 std::vector<std::string> cmd_line = {"/help", "/disable-all", "/auto-ads", "/disable-ads", "/auto-decline", "/auto-accept", "/auto-counter", "/disable-filter", "/utils-running", "/trade-eval"}; // /auto-trade is a planned feature.
 
 std::mutex mutex;
@@ -78,7 +89,7 @@ void utils_running() {
         util_printed = true;
     }
 
-    std::cout << "\n\n";
+    std::cout << "\n";
 }
 
 int cmd_search(std::string user_input) {
@@ -94,7 +105,7 @@ int cmd_search(std::string user_input) {
     if (user_input == "/auto-decline" || user_input == "/auto-accept" || user_input == "/auto-counter") filter_cmd = true;
 
     if (filter_cmd && filter_data.baseline.empty()) {
-        filter_user_query();
+        filter_data = filter_user_query();
     }
     
     if (user_input == "/help") {

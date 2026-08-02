@@ -8,14 +8,15 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/mojot/Documents/RoTrade/src/auto_trade_poster.cpp" "CMakeFiles/RoTrade.dir/auto_trade_poster.cpp.o" "gcc" "CMakeFiles/RoTrade.dir/auto_trade_poster.cpp.o.d"
-  "/home/mojot/Documents/RoTrade/src/cli.cpp" "CMakeFiles/RoTrade.dir/cli.cpp.o" "gcc" "CMakeFiles/RoTrade.dir/cli.cpp.o.d"
-  "/home/mojot/Documents/RoTrade/src/data_query.cpp" "CMakeFiles/RoTrade.dir/data_query.cpp.o" "gcc" "CMakeFiles/RoTrade.dir/data_query.cpp.o.d"
-  "/home/mojot/Documents/RoTrade/src/main.cpp" "CMakeFiles/RoTrade.dir/main.cpp.o" "gcc" "CMakeFiles/RoTrade.dir/main.cpp.o.d"
-  "/home/mojot/Documents/RoTrade/src/trade_ads.cpp" "CMakeFiles/RoTrade.dir/trade_ads.cpp.o" "gcc" "CMakeFiles/RoTrade.dir/trade_ads.cpp.o.d"
-  "/home/mojot/Documents/RoTrade/src/trade_eval.cpp" "CMakeFiles/RoTrade.dir/trade_eval.cpp.o" "gcc" "CMakeFiles/RoTrade.dir/trade_eval.cpp.o.d"
-  "/home/mojot/Documents/RoTrade/src/trade_filter.cpp" "CMakeFiles/RoTrade.dir/trade_filter.cpp.o" "gcc" "CMakeFiles/RoTrade.dir/trade_filter.cpp.o.d"
-  "/home/mojot/Documents/RoTrade/src/web_scraper.cpp" "CMakeFiles/RoTrade.dir/web_scraper.cpp.o" "gcc" "CMakeFiles/RoTrade.dir/web_scraper.cpp.o.d"
+  "/home/legion/Documents/RoTradeV3.0BETAcpp/src/auto_trade_sender.cpp" "CMakeFiles/RoTrade.dir/auto_trade_sender.cpp.o" "gcc" "CMakeFiles/RoTrade.dir/auto_trade_sender.cpp.o.d"
+  "/home/legion/Documents/RoTradeV3.0BETAcpp/src/cli.cpp" "CMakeFiles/RoTrade.dir/cli.cpp.o" "gcc" "CMakeFiles/RoTrade.dir/cli.cpp.o.d"
+  "/home/legion/Documents/RoTradeV3.0BETAcpp/src/data_query.cpp" "CMakeFiles/RoTrade.dir/data_query.cpp.o" "gcc" "CMakeFiles/RoTrade.dir/data_query.cpp.o.d"
+  "/home/legion/Documents/RoTradeV3.0BETAcpp/src/main.cpp" "CMakeFiles/RoTrade.dir/main.cpp.o" "gcc" "CMakeFiles/RoTrade.dir/main.cpp.o.d"
+  "/home/legion/Documents/RoTradeV3.0BETAcpp/src/trade_ads.cpp" "CMakeFiles/RoTrade.dir/trade_ads.cpp.o" "gcc" "CMakeFiles/RoTrade.dir/trade_ads.cpp.o.d"
+  "/home/legion/Documents/RoTradeV3.0BETAcpp/src/trade_eval.cpp" "CMakeFiles/RoTrade.dir/trade_eval.cpp.o" "gcc" "CMakeFiles/RoTrade.dir/trade_eval.cpp.o.d"
+  "/home/legion/Documents/RoTradeV3.0BETAcpp/src/trade_filter.cpp" "CMakeFiles/RoTrade.dir/trade_filter.cpp.o" "gcc" "CMakeFiles/RoTrade.dir/trade_filter.cpp.o.d"
+  "/home/legion/Documents/RoTradeV3.0BETAcpp/src/web_scraper.cpp" "CMakeFiles/RoTrade.dir/web_scraper.cpp.o" "gcc" "CMakeFiles/RoTrade.dir/web_scraper.cpp.o.d"
+  "" "RoTrade" "gcc" "CMakeFiles/RoTrade.dir/link.d"
   )
 
 # Targets to which this target links which contain Fortran sources.
