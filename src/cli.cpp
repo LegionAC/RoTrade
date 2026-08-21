@@ -90,7 +90,7 @@ void ad_poster(std::vector<menu_item>& item, int target) {
         switch_list.ad_switch = true;
         start_trade_ads();
         item[target].text = "Disable";
-        main_menu[4].text = "[3] Trade Ad Poster [RUNNING]";
+        main_menu[3].text = "[3] Trade Ad Poster [RUNNING]";
     }
 }
 
