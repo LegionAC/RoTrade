@@ -69,7 +69,7 @@ inline std::string roli_cookie;
 inline void ping_cmd_line(std::string text) {};
 inline filter_info decline_filter_data;
 inline filter_info accept_filter_data;
-inline filter_info coujnter_filter_data;
+inline filter_info counter_filter_data;
 inline std::string ad_cooldown;
 inline std::string roli_player_id;
 inline std::string offer_ids;
@@ -145,6 +145,12 @@ inline std::vector<std::pair<std::string, std::string*>> config_ptrs = {
     {"sender_receive", &sender_receive},
     {"sender_offer_robux", &sender_offer_robux},
     {"sender_receive_robux", &sender_receive_robux},
+    {"decline_baseline", &decline_filter_data.baseline},
+    {"decline_cooldown", &decline_filter_data.cooldown},
+    {"accept_baseline", &accept_filter_data.baseline},
+    {"accept_cooldown", &accept_filter_data.cooldown},
+    {"counter_baseline", &counter_filter_data.baseline},
+    {"counter_cooldown", &counter_filter_data.cooldown}
 };
 
 inline std::vector<std::reference_wrapper<std::vector<menu_item>>> menu_objs = {

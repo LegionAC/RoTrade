@@ -131,7 +131,11 @@ void read_config() {
 
     while(std::getline (config, str)) {
         size_t pos = str.find('=');
-        if (pos != std::string::npos) str = str.substr(pos + 1);
+        if (pos != std::string::npos){
+            str = str.substr(pos + 1);
+        } else {
+            str = "";
+        }
         *config_ptrs[index].second = str;
         index += 1;
     }
