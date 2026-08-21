@@ -1,0 +1,16 @@
+rblx_cookie=test
+roli_cookie=_RoliVerification=test
+ad_cooldown=
+roli_player_id=bro
+offer_ids=
+receive_ids=
+offer_robux=
+receive_robux=
+poster_offer=
+poster_receive=
+poster_cooldown=
+poster_receive_tags=
+sender_offer=24324214214214
+sender_receive=
+sender_offer_robux=
+sender_receive_robux=
