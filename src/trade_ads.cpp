@@ -67,11 +67,17 @@ json ad_user_query() {
 
 void ad_loop(json j) {
     ad_headers.find("Cookie")->second = roli_cookie;
+    int count{1};
     while (switch_list.ad_switch) {
         auto res = send_trade(j, stoi(poster_cooldown));
 
         if (res->status == 201) {
-            append_output("Trade ad sent successfully. Waiting " + poster_cooldown + " seconds.");
+            std::string str = "Trade ad sent successfully. Waiting " + poster_cooldown + " seconds." + " [" + std::to_string(count) + "]";
+            std::string target_str = "Trade ad sent successfully. Waiting " + poster_cooldown + " seconds." + " [" + std::to_string(count - 1) + "]";
+            size_t pos = output.find(target_str);
+            if (pos == std::string::npos) {
+                append_output(str);
+            } else output.replace(pos, target_str.length(), str);
         } else if (res->status == 400) {
             append_output("Trade ad limit reached... Waiting " + poster_cooldown + " seconds.");
         } else {

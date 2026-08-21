@@ -84,7 +84,7 @@ void filter_decline(std::vector<menu_item>& item, int target, filter_info filter
 void ad_poster(std::vector<menu_item>& item, int target) {
     if (switch_list.ad_switch) {
         switch_list.ad_switch = false;
-        main_menu[4].text = "[3] Trade Ad Poster";
+        main_menu[3].text = "[3] Trade Ad Poster";
         item[target].text = "Enable";
     } else {
         switch_list.ad_switch = true;
