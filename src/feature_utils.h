@@ -35,7 +35,7 @@ struct menu_item {
     std::string text;
     std::function<void()> action;
     std::string orig_text;
-    std::string* variable;
+    std::string* variable = nullptr;
 };
 
 extern double eval_trade(std::vector<std::string> offer_ids, std::vector<std::string> receive_ids, int offer_robux, int receive_robux);

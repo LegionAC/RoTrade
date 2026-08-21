@@ -140,7 +140,10 @@ void read_config() {
         auto& item = v.get();
         for (auto& v : item) {
             if (!v.variable || v.variable->empty()) continue;
-            if (v.orig_text == "_RoliVerification=") v.text = *v.variable; continue;
+            if (v.orig_text == "_RoliVerification=") {
+                v.text = *v.variable;
+                continue;
+            }
             v.text = v.orig_text + *v.variable;
         }
     }
