@@ -75,6 +75,7 @@ void ad_loop(json j) {
             std::string str = "Trade ad sent successfully. Waiting " + poster_cooldown + " seconds." + " [" + std::to_string(count) + "]";
             std::string target_str = "Trade ad sent successfully. Waiting " + poster_cooldown + " seconds." + " [" + std::to_string(count - 1) + "]";
             size_t pos = output.find(target_str);
+            count += 1;
             if (pos == std::string::npos) {
                 append_output(str);
             } else output.replace(pos, target_str.length(), str);
