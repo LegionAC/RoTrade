@@ -38,7 +38,11 @@ int value_sum(std::vector<item_info> offer, int robux) {
     rap += robux;
 
     for (item_info v : offer) {
-        rap += v.value;
+        if (v.rap == v.value && v.median != 0) {
+            rap += v.median;
+        } else {
+            rap += v.value;
+        }
     }
 
     return rap;
@@ -58,13 +62,13 @@ double demand_sum(std::vector<item_info> offer) {
 
     for (item_info v : offer) {
         if (v.demand == 0) {
-            sum += 0.15;
-        } else if (v.demand == 1) {
             sum += 0.1;
+        } else if (v.demand == 1) {
+            sum += 0.05;
         } else if (v.demand == 3) {
-            sum -= 0.1;
+            sum -= 0.05;
         } else if (v.demand == 4) {
-            sum -= 0.25;
+            sum -= 0.1;
         }
     }
 
@@ -87,7 +91,7 @@ double eval_sum(std::vector<item_info> offer, std::vector<item_info> receive, in
         double dist_to_baseline = overpay - baseline; // overpay will be positive or negative to reward
         score -= dist_to_baseline / offer_sum;
     } else {
-        score -= (double)overpay / offer_sum;
+        score -= ((double)overpay / offer_sum) * 3;
     }
 
     score += demand_sum(offer);
@@ -97,11 +101,7 @@ double eval_sum(std::vector<item_info> offer, std::vector<item_info> receive, in
     return std::clamp(score, -1.0, 1.0);
 }
 
-double eval_trade(std::vector<std::string> offer_ids, std::vector<std::string> receive_ids, int offer_robux, int receive_robux) {
-    auto current_data_res = roli_api.Get("/items/v2/itemdetails");
-
-    json data = json::parse(current_data_res->body);
-    
+double eval_trade(std::vector<std::string> offer_ids, std::vector<std::string> receive_ids, int offer_robux, int receive_robux, json data) {    
     std::vector<item_info> offer = get_item_vector(offer_ids, data);
     std::vector<item_info> receive = get_item_vector(receive_ids, data);
 

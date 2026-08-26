@@ -106,8 +106,13 @@ void walk(GumboNode* node) {
     }
 }
 
-void parse_doc(std::string item_id) {
-    auto res = parse_cli.Get("/bundle/" + item_id);
+void parse_doc(std::string item_id, bool bundle) {
+    httplib::Result res;
+    if (bundle) {
+        res = parse_cli.Get("/bundle/" + item_id);
+    } else {
+        res = parse_cli.Get("/item/" + item_id);
+    }
 
     GumboOutput* output = gumbo_parse(res->body.c_str());
 
@@ -116,8 +121,8 @@ void parse_doc(std::string item_id) {
     gumbo_destroy_output(&kGumboDefaultOptions, output);
 }
 
-item_info item_query(std::string item_id) {
-    parse_doc(item_id);
+item_info item_query(std::string item_id, bool bundle) {
+    parse_doc(item_id, bundle);
 
     if (info.value == -1) info.value = info.rap;
 

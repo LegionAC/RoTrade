@@ -1,1 +1,24 @@
-{ }
+{
+    openssl = {
+        __enabled = true,
+        links = {
+            "ssl",
+            "crypto"
+        },
+        __requirestr = "openssl",
+        libfiles = {
+            "/usr/lib/libssl.so",
+            "/usr/lib/libcrypto.so"
+        },
+        shared = true,
+        version = "3.6.3"
+    },
+    gumbo = {
+        __enabled = true,
+        links = "gumbo",
+        __requirestr = "gumbo",
+        libfiles = "/usr/lib/libgumbo.so",
+        shared = true,
+        version = "0.13.2"
+    }
+}

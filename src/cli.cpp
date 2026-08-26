@@ -72,12 +72,12 @@ void filter_decline(std::vector<menu_item>& item, int target, filter_info filter
     if (switch_list.filter_decline) {
         switch_list.filter_decline = false;
         trade_filter[1].text = "[1] Auto-decline";
-        item[target].text = "Enable";
+        item[target].text = "[3] Enable";
     } else {
         switch_list.filter_decline = true;
         trade_filter[1].text = "[1] Auto-decline [RUNNING]";
         filter_trades(filter_data, 0);
-        item[target].text = "Disable";
+        item[target].text = "[3] Disable";
     }
 }
 
@@ -85,11 +85,11 @@ void ad_poster(std::vector<menu_item>& item, int target) {
     if (switch_list.ad_switch) {
         switch_list.ad_switch = false;
         main_menu[3].text = "[3] Trade Ad Poster";
-        item[target].text = "Enable";
+        item[target].text = "[3] Enable";
     } else {
         switch_list.ad_switch = true;
         start_trade_ads();
-        item[target].text = "Disable";
+        item[target].text = "[3] Disable";
         main_menu[3].text = "[3] Trade Ad Poster [RUNNING]";
     }
 }
@@ -98,12 +98,12 @@ void filter_accept(std::vector<menu_item>& item, int target, filter_info filter_
     if (switch_list.filter_accept) {
         switch_list.filter_accept = false;
         trade_filter[2].text = "[2] Auto-accept";
-        item[target].text = "Enable";
+        item[target].text = "[5] Enable";
     } else {
         switch_list.filter_accept = true;
         trade_filter[2].text = "[2] Auto-accept [RUNNING]";
         filter_trades(filter_data, 1);
-        item[target].text = "Disable";
+        item[target].text = "[5] Disable";
     }
 }
 
@@ -144,7 +144,7 @@ void read_config() {
         auto& item = v.get();
         for (auto& v : item) {
             if (!v.variable || v.variable->empty()) continue;
-            if (v.orig_text == "_RoliVerification=") {
+            if (v.orig_text == "[2] _RoliVerification=") {
                 v.text = *v.variable;
                 continue;
             }
@@ -153,6 +153,20 @@ void read_config() {
     }
 
     output = "Config loaded successfully.";
+}
+
+void eval_test() {
+    output = "Calculating...\n";
+    draw();
+    std::vector<std::string> offer = vector_csv_parse(eval_offer);
+    std::vector<std::string> receive = vector_csv_parse(eval_receive);
+
+    auto current_data_res = roli_api.Get("/items/v2/itemdetails");
+    json data = json::parse(current_data_res->body);
+
+    double score = eval_trade(offer, receive, std::stoi(eval_offer_robux), std::stoi(eval_receive_robux), data);
+
+    append_output("Trade evaluated to: " + std::to_string(score));
 }
 
 void draw() {

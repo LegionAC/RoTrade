@@ -1,6 +1,0 @@
-{
-    find_program = {
-        xrepo = "/usr/bin/xrepo",
-        ping = "/usr/bin/ping"
-    }
-}

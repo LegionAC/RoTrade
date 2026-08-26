@@ -24,6 +24,7 @@ httplib::Params params;
 
 void post(std::string trade_id, std::string action) {
     auto res = trades_api.Post("/v1/trades/" + trade_id + action, filter_headers, params);
+    httplib::Headers copy = filter_headers;
 
     if (res->status == 403) {
         std::string csrf = res->get_header_value("x-csrf-token");
@@ -36,7 +37,7 @@ void post(std::string trade_id, std::string action) {
 void filter_action(double eval, filter_info info, std::string trade_id) {
     double baseline = std::stod(info.baseline);
 
-    if (switch_list.filter_decline && !switch_list.filter_counter && eval < baseline) {
+    if (switch_list.filter_decline && !switch_list.filter_counter && eval <= baseline) {
         trades_declined += 1;
         post(trade_id, "/decline");
     }
@@ -70,7 +71,10 @@ void filter(json trades, filter_info info) {
         int offer_robux = details["participantAOffer"]["robux"];
         int receive_robux = details["participantBOffer"]["robux"];
 
-        double eval = eval_trade(offer_itemIDs, receive_itemIDs, offer_robux, receive_robux);
+        auto current_data_res = roli_api.Get("/items/v2/itemdetails");
+        json data = json::parse(current_data_res->body);
+        
+        double eval = eval_trade(offer_itemIDs, receive_itemIDs, offer_robux, receive_robux, data);
 
         filter_action(eval, info, trade_id);
     }

@@ -16,6 +16,7 @@ struct item_info {
     int projected;
     int rare;
     int trend;
+    int median;
 };
 
 struct switches {
@@ -38,11 +39,11 @@ struct menu_item {
     std::string* variable = nullptr;
 };
 
-extern double eval_trade(std::vector<std::string> offer_ids, std::vector<std::string> receive_ids, int offer_robux, int receive_robux);
+extern double eval_trade(std::vector<std::string> offer_ids, std::vector<std::string> receive_ids, int offer_robux, int receive_robux, json data);
 extern void filter_trades(filter_info filter_data, int job);
 extern void start_trade_ads();
 extern void menu_nav();
-extern item_info item_query(std::string item_id);
+extern item_info item_query(std::string item_id, bool bundle);
 extern item_info get_item_info(std::string item_id, json item_data);
 extern void enable_raw_mode();
 extern void disable_raw_mode();
@@ -55,6 +56,7 @@ extern void filter_accept(std::vector<menu_item>& item, int target, filter_info 
 extern void ad_poster(std::vector<menu_item>& item, int target);
 extern void save_config();
 extern void read_config();
+extern void eval_test();
 
 inline switches switch_list;
 inline bool cmd_wait;
@@ -84,18 +86,22 @@ inline std::string sender_offer;
 inline std::string sender_receive;
 inline std::string sender_offer_robux;
 inline std::string sender_receive_robux;
+inline std::string eval_offer;
+inline std::string eval_receive;
+inline std::string eval_offer_robux;
+inline std::string eval_receive_robux;
 inline std::string output;
 
 inline std::vector<menu_item> player_data = {
-    {"COOKIES"}, {".ROBLOSECURITY=", [](){get_info(player_data[1], rblx_cookie);}, ".ROBLOSECURITY=", &rblx_cookie}, {"_RoliVerification=", [](){get_info(player_data[2], roli_cookie, "_RoliVerification=");}, "_RoliVerification=", &roli_cookie}, {"Rolimons Player ID=", [](){get_info(player_data[3], roli_player_id);}, "Rolimons Player ID=", &roli_player_id}
+    {"COOKIES"}, {"[1] .ROBLOSECURITY=", [](){get_info(player_data[1], rblx_cookie);}, "[1] .ROBLOSECURITY=", &rblx_cookie}, {"[2] _RoliVerification=", [](){get_info(player_data[2], roli_cookie, "[2] _RoliVerification=");}, "[2] _RoliVerification=", &roli_cookie}, {"[3] Rolimons Player ID=", [](){get_info(player_data[3], roli_player_id);}, "[3] Rolimons Player ID=", &roli_player_id}
 };
 
 inline std::vector<menu_item> decline_filter_info = {
-    {"FILTER INFO"}, {"Baseline=", [](){get_info(decline_filter_info[1], decline_filter_data.baseline);}, "Baseline=", &decline_filter_data.baseline}, {"Cooldown=", [](){get_info(decline_filter_info[2], decline_filter_data.cooldown);}, "Cooldown=", &decline_filter_data.cooldown}, {"Enable", [](){filter_decline(decline_filter_info, 3, decline_filter_data);}}
+    {"FILTER INFO"}, {"[1] Baseline=", [](){get_info(decline_filter_info[1], decline_filter_data.baseline);}, "[1] Baseline=", &decline_filter_data.baseline}, {"[2] Cooldown=", [](){get_info(decline_filter_info[2], decline_filter_data.cooldown);}, "[2] Cooldown=", &decline_filter_data.cooldown}, {"[3] Enable", [](){filter_decline(decline_filter_info, 3, decline_filter_data);}}
 };
 
 inline std::vector<menu_item> accept_filter_info = {
-    {"FILTER INFO"}, {"Baseline=", [](){get_info(accept_filter_info[1], accept_filter_data.baseline);}, "Baseline=", &accept_filter_data.baseline}, {"Cooldown=", [](){get_info(accept_filter_info[2], accept_filter_data.cooldown);}, "Cooldown=", &accept_filter_data.cooldown}, {"Enable", [](){filter_accept(accept_filter_info, 3, accept_filter_data);}}
+    {"FILTER INFO"}, {"[1] Baseline=", [](){get_info(accept_filter_info[1], accept_filter_data.baseline);}, "[1] Baseline=", &accept_filter_data.baseline}, {"[2] Cooldown=", [](){get_info(accept_filter_info[2], accept_filter_data.cooldown);}, "[2] Cooldown=", &accept_filter_data.cooldown}, {"[3] Enable", [](){filter_accept(accept_filter_info, 3, accept_filter_data);}}
 };
 
 inline std::vector<menu_item> counter_filter_info;
@@ -105,7 +111,7 @@ inline std::vector<menu_item> trade_filter = {
 };
 
 inline std::vector<menu_item> eval = {
-    {"TRADE EVAL"}, {"[1] Offer IDs="}, {"[2] Receive IDs="}, {"[3] Offer Robux="}, {"[4] Receive Robux"}
+    {"TRADE EVAL"}, {"[1] Offer IDs=", [](){get_info(eval[1], eval_offer);}, "[1] Offer IDs=", &eval_offer}, {"[2] Receive IDs=", [](){get_info(eval[2], eval_receive);}, "[2] Receive IDs=", &eval_receive}, {"[3] Offer Robux=", [](){get_info(eval[3], eval_offer_robux);}, "[3] Offer Robux=", &eval_offer_robux}, {"[4] Receive Robux=", [](){get_info(eval[4], eval_receive_robux);}, "[4] Receive Robux=", &eval_receive_robux}, {"[5] Evaluate Trade", [](){eval_test();}}
 };
 
 inline std::vector<menu_item> saved_configs = {
@@ -117,15 +123,19 @@ inline std::vector<menu_item> config = {
 };
 
 inline std::vector<menu_item> trade_ad_poster = {
-    {"TRADE AD POSTER"}, {"Offer=", [](){get_info(trade_ad_poster[1], poster_offer);}, "Offer=", &poster_offer}, {"Receive=", [](){get_info(trade_ad_poster[2], poster_receive);}, "Receive=", &poster_receive}, {"ReceiveTags=", [](){get_info(trade_ad_poster[3], poster_receive_tags);}, "ReceiveTags=", &poster_receive_tags}, {"Cooldown=", [](){get_info(trade_ad_poster[4], poster_cooldown);}, "Cooldown=", &poster_cooldown}, {"Enable", [](){ad_poster(trade_ad_poster, 5);}}
+    {"TRADE AD POSTER"}, {"[1] Offer=", [](){get_info(trade_ad_poster[1], poster_offer);}, "[1] Offer=", &poster_offer}, {"[2] Receive=", [](){get_info(trade_ad_poster[2], poster_receive);}, "[2] Receive=", &poster_receive}, {"[3] ReceiveTags=", [](){get_info(trade_ad_poster[3], poster_receive_tags);}, "[3] ReceiveTags=", &poster_receive_tags}, {"[4] Cooldown=", [](){get_info(trade_ad_poster[4], poster_cooldown);}, "[4] Cooldown=", &poster_cooldown}, {"[5] Enable", [](){ad_poster(trade_ad_poster, 5);}}
 };
 
 inline std::vector<menu_item> mass_trade_sender = {
-    {"MASS TRADE SENDER"}, {"Offer=", [](){get_info(mass_trade_sender[1], sender_offer);}, "Offer=", &sender_offer}, {"Receive=", [](){get_info(mass_trade_sender[2], sender_receive);}, "Receive=", &sender_receive}, {"OfferRobux=", [](){get_info(mass_trade_sender[3], sender_offer_robux);}, "OfferRobux=", &sender_offer_robux}, {"ReceiveRobux=", [](){get_info(mass_trade_sender[4], sender_receive_robux);}, "ReceiveRobux=", &sender_receive_robux}, {"Enable"}
+    {"MASS TRADE SENDER"}, {"[1] Offer=", [](){get_info(mass_trade_sender[1], sender_offer);}, "[1] Offer=", &sender_offer}, {"[2] Receive=", [](){get_info(mass_trade_sender[2], sender_receive);}, "[2] Receive=", &sender_receive}, {"[3] OfferRobux=", [](){get_info(mass_trade_sender[3], sender_offer_robux);}, "[3] OfferRobux=", &sender_offer_robux}, {"[4] ReceiveRobux=", [](){get_info(mass_trade_sender[4], sender_receive_robux);}, "[4] ReceiveRobux=", &sender_receive_robux}, {"[5] Enable"}
+};
+
+inline std::vector<menu_item> trade_menu = {
+    {"TRADE MENU"}, {"[1] Trade Sender", [](){new_focus(mass_trade_sender);}}, {"[2] Trade Eval", [](){new_focus(eval);}}
 };
 
 inline std::vector<menu_item> main_menu = {
-    {"MENU"}, {"[1] Config", [](){new_focus(config);}}, {"[2] Trade Filter", [](){new_focus(trade_filter);}}, {"[3] Trade Ad Poster", [](){new_focus(trade_ad_poster);}}, {"[4] Mass Trade Sender", [](){new_focus(mass_trade_sender);}}
+    {"MENU"}, {"[1] Config", [](){new_focus(config);}}, {"[2] Trade Filter", [](){new_focus(trade_filter);}}, {"[3] Trade Ad Poster", [](){new_focus(trade_ad_poster);}}, {"[4] Mass Trade Sender", [](){new_focus(trade_menu);}}
 };
 
 inline std::vector<std::pair<std::string, std::string*>> config_ptrs = {
@@ -150,7 +160,11 @@ inline std::vector<std::pair<std::string, std::string*>> config_ptrs = {
     {"accept_baseline", &accept_filter_data.baseline},
     {"accept_cooldown", &accept_filter_data.cooldown},
     {"counter_baseline", &counter_filter_data.baseline},
-    {"counter_cooldown", &counter_filter_data.cooldown}
+    {"counter_cooldown", &counter_filter_data.cooldown},
+    {"eval_offer", &eval_offer},
+    {"eval_receive", &eval_receive},
+    {"eval_offer_robux", &eval_offer_robux},
+    {"eval_receive_robux", &eval_receive_robux}
 };
 
 inline std::vector<std::reference_wrapper<std::vector<menu_item>>> menu_objs = {
@@ -164,6 +178,7 @@ inline std::vector<std::reference_wrapper<std::vector<menu_item>>> menu_objs = {
     config,
     trade_ad_poster,
     mass_trade_sender,
+    trade_menu,
     main_menu
 };
 
