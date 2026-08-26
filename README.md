@@ -1,5 +1,7 @@
 Updated version of original python-written RoTrade, now with new features and written in C++.
 
+## DEPRECATED README DUE TO ENTIRELY NEW MENU REVAMP
+
 -- Version 3.0
 
 ## FEATURES
