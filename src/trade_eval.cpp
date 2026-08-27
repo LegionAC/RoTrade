@@ -23,13 +23,7 @@ std::vector<item_info> get_item_vector(std::vector<std::string> items, json data
 }
 
 int trade_type(int offer_num, int receive_num) {
-    if (offer_num < receive_num) {
-        return 1; // DOWNGRADE
-    } else if (offer_num > receive_num) {
-        return -1; // UPGRADE
-    } else {
-        return 0; // EQUAL
-    }
+    return offer_num - receive_num;
 }
 
 int value_sum(std::vector<item_info> offer, int robux) {
@@ -78,7 +72,11 @@ double demand_sum(std::vector<item_info> offer) {
 double eval_sum(std::vector<item_info> offer, std::vector<item_info> receive, int trade_type, int offer_sum, int overpay, bool player) {
     double score{0};
 
-    double baseline = 0.15 * offer_sum;
+    double hinge;
+
+    hinge = std::abs(0.5 * trade_type);
+
+    double baseline = hinge * offer_sum;
 
     if (has_proj(receive) && player) {
         return -999999999;

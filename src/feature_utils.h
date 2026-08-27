@@ -93,7 +93,7 @@ inline std::string eval_receive_robux;
 inline std::string output;
 
 inline std::vector<menu_item> player_data = {
-    {"COOKIES"}, {"[1] .ROBLOSECURITY=", [](){get_info(player_data[1], rblx_cookie);}, "[1] .ROBLOSECURITY=", &rblx_cookie}, {"[2] _RoliVerification=", [](){get_info(player_data[2], roli_cookie, "[2] _RoliVerification=");}, "[2] _RoliVerification=", &roli_cookie}, {"[3] Rolimons Player ID=", [](){get_info(player_data[3], roli_player_id);}, "[3] Rolimons Player ID=", &roli_player_id}
+    {"COOKIES"}, {"[1] .ROBLOSECURITY=", [](){get_info(player_data[1], rblx_cookie);}, "[1] .ROBLOSECURITY=", &rblx_cookie}, {"[2] _RoliVerification=", [](){get_info(player_data[2], roli_cookie, "_RoliVerification=");}, "[2] _RoliVerification=", &roli_cookie}, {"[3] Rolimons Player ID=", [](){get_info(player_data[3], roli_player_id);}, "[3] Rolimons Player ID=", &roli_player_id}
 };
 
 inline std::vector<menu_item> decline_filter_info = {

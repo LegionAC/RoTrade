@@ -10,6 +10,7 @@
 #include <sys/ioctl.h>
 #include <algorithm>
 #include <fstream>
+#include <chrono>
 
 /*
     to do list:
@@ -85,11 +86,11 @@ void ad_poster(std::vector<menu_item>& item, int target) {
     if (switch_list.ad_switch) {
         switch_list.ad_switch = false;
         main_menu[3].text = "[3] Trade Ad Poster";
-        item[target].text = "[3] Enable";
+        item[target].text = "[5] Enable";
     } else {
         switch_list.ad_switch = true;
         start_trade_ads();
-        item[target].text = "[3] Disable";
+        item[target].text = "[5] Disable";
         main_menu[3].text = "[3] Trade Ad Poster [RUNNING]";
     }
 }

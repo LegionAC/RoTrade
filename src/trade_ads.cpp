@@ -82,7 +82,7 @@ void ad_loop(json j) {
         } else if (res->status == 400) {
             append_output("Trade ad limit reached... Waiting " + poster_cooldown + " seconds.");
         } else {
-            trade_ad_poster[5].text = "Enable";
+            trade_ad_poster[5].text = "[5] Enable";
             main_menu[3].text = "[3] Trade Ad Poster";
             append_output("Trade ad error: " + std::to_string(res->status) + "\nError code: " + res->body);
             switch_list.ad_switch = false;

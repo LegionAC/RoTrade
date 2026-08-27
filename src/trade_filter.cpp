@@ -96,7 +96,7 @@ void filter_loop(filter_info info, int job) {
         auto res = trades_api.Get("/v1/trades/Inbound?limit=100", filter_headers);
         if (res->status != 200) {
             *target_switch = false;
-            ((*item)[3]).text = "Enable";
+            ((*item)[3]).text = "[3] Enable";
             trade_filter[target].text = str;
             std::string err_msg = res->status == 401 ? "Invalid cookie. Reset your cookie in Config --> Cookies --> .ROBLOSECURITY" : "Unknown error occurred. Please screenshot and create a github issue." + res->body;
             append_output(err_msg);

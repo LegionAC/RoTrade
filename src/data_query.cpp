@@ -55,7 +55,7 @@ std::string get_bundle_item_id(std::string item_name, json data) {
 
 std::string get_cid(std::string item_id) {
     auto res = catalog_api.Get("/v1/catalog/items/" + item_id + "/details?itemType=Asset");
-    if (!res->status == 403) res = catalog_api.Get("/v1/catalog/items/" + item_id + "/details?itemType=Bundle");
+    if (res->status == 400) res = catalog_api.Get("/v1/catalog/items/" + item_id + "/details?itemType=Bundle");
     json data = json::parse(res->body);
 
     return data["collectibleItemId"];
