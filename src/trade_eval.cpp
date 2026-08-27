@@ -32,7 +32,7 @@ int value_sum(std::vector<item_info> offer, int robux) {
     rap += robux;
 
     for (item_info v : offer) {
-        if (v.rap == v.value && v.median != 0) {
+        if (v.rap == v.value && v.median != 0 && v.median <= v.value) {
             rap += v.median;
         } else {
             rap += v.value;
@@ -74,7 +74,7 @@ double eval_sum(std::vector<item_info> offer, std::vector<item_info> receive, in
 
     double hinge;
 
-    hinge = std::abs(0.5 * trade_type);
+    hinge = std::abs(0.05 * trade_type);
 
     double baseline = hinge * offer_sum;
 
@@ -82,12 +82,12 @@ double eval_sum(std::vector<item_info> offer, std::vector<item_info> receive, in
         return -999999999;
     }
     
-    if (trade_type == 1) {
+    if (trade_type >  0) {
         double dist_to_baseline = overpay + baseline; // overpay will be negative to reward
         score -= dist_to_baseline / offer_sum;
-    } else if (trade_type == -1) {
+    } else if (trade_type < 0) {
         double dist_to_baseline = overpay - baseline; // overpay will be positive or negative to reward
-        score -= dist_to_baseline / offer_sum;
+        score += dist_to_baseline / offer_sum;
     } else {
         score -= ((double)overpay / offer_sum) * 3;
     }
