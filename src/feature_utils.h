@@ -62,10 +62,10 @@ inline switches switch_list;
 inline bool cmd_wait;
 inline std::string str_buffer;
 inline httplib::Client roli_api("https://api.rolimons.com");
-inline httplib::Client catalog_api("https://catalog.roproxy.com");
-inline httplib::Client roblox_apis("https://apis.roproxy.com");
-inline httplib::Client inventory_api("https://inventory.roproxy.com");
-inline httplib::Client trades_api("https://trades.roproxy.com");
+inline httplib::Client catalog_api("https://catalog.roblox.com");
+inline httplib::Client roblox_apis("https://apis.roblox.com");
+inline httplib::Client inventory_api("https://inventory.roblox.com");
+inline httplib::Client trades_api("https://trades.roblox.com");
 inline std::string rblx_cookie;
 inline std::string roli_cookie;
 inline void ping_cmd_line(std::string text) {};
@@ -119,7 +119,7 @@ inline std::vector<menu_item> saved_configs = {
 };
 
 inline std::vector<menu_item> config = {
-    {"CONFIG"}, {"[1] Cookies", [](){new_focus(player_data);}}, {"[2] Trade Evaluation"}, {"[3] Saved Configs", [](){new_focus(saved_configs);}}
+    {"CONFIG"}, {"[1] Cookies", [](){new_focus(player_data);}}, {"[2] Saved Configs", [](){new_focus(saved_configs);}}
 };
 
 inline std::vector<menu_item> trade_ad_poster = {

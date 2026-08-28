@@ -32,7 +32,7 @@ int value_sum(std::vector<item_info> offer, int robux) {
     rap += robux;
 
     for (item_info v : offer) {
-        if (v.rap == v.value && v.median != 0 && v.median <= v.value) {
+        if (v.rap == v.value && v.median != 0 && v.median <= v.value && v.median != 0) {
             rap += v.median;
         } else {
             rap += v.value;
@@ -108,7 +108,7 @@ double eval_trade(std::vector<std::string> offer_ids, std::vector<std::string> r
     int offer_sum = value_sum(offer, offer_robux);
     int receive_sum = value_sum(receive, receive_robux);
 
-    int overpay = offer_sum - receive_sum;
+    int overpay = receive_sum - offer_sum;
 
     double offer_score = eval_sum(offer, receive, offer_type, offer_sum, overpay, true);
 

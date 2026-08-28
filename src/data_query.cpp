@@ -69,6 +69,7 @@ std::vector<int> get_rap_history(std::string cid) {
     json data = json::parse(res->body);
 
     for (int i{0}; i < 14; i++) {
+        if (data["priceDataPoints"][i]["value"].is_null()) return {};
         rap_history.push_back(data["priceDataPoints"][i]["value"]);
     }
 
@@ -90,10 +91,16 @@ item_info get_item_info(std::string item_id, json item_data) {
         target_item = item_data["items"][roli_item_id];
     }
 
-    std::string cid = get_cid(item_id);
-    std::vector<int> rap_history = get_rap_history(cid);
-    int median = get_median(rap_history);
-
+    int median = 0;
+    if (target_item[2] == target_item[4]) {
+        std::string cid = get_cid(item_id);
+        std::vector<int> rap_history = get_rap_history(cid);
+        if (rap_history.empty()) {
+            median = 0;
+        } else {
+            median = get_median(rap_history);
+        }
+    }
     item_info info = populate_item_struct(target_item, item_id, median);
     return info;
 }
