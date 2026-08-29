@@ -8,7 +8,7 @@ Updated version of original python-written RoTrade, now with new features and wr
 - Automatically sends trades on ``Rolimons.com`` at user configured intervals.
 - Configure your trade ad in ``MENU --> TRADE AD POSTER``
 
-<ins>Trade Filter:</ins>
+<ins>**Trade Filter:**</ins>
 - Tired of lowball trades? Tired of people thinking you're stupid enough to get proj flipped? If the standard Roblox trade filter isn't cutting it, you can use the trade filter utility.
 
 - There are three types of trade filters, auto-decline, auto-accept, and auto-counter.
@@ -30,10 +30,14 @@ Updated version of original python-written RoTrade, now with new features and wr
 - Trades which meet the baseline are ignored.
 - Possibly more profitable than the passive method of sending trade ads and solely accept-filtering trades, as it sends out high quality trades.
 
+<ins>**Trade Evaluation:**</ins>
+- RoTrade uses a pre-configured evaluation algorithm to determine trade quality.
+- Test the trade algorithm in ``MENU --> MASS TRADE SENDER --> TRADE EVAL``
+
 <ins>MENU PREVIEW</ins>
 
-<ins>Trade Evaluation:</ins>
-- RoTrade uses a pre-configured evaluation algorithm to determine trade quality.
+<img width="890" height="337" alt="image" src="https://github.com/user-attachments/assets/eae251e4-ae3a-4f63-b5fa-610e972e5007" />
+
 
 <ins>PLANNED FEATURES:</ins>
 - Auto counter trade filter add-on.
