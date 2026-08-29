@@ -4,7 +4,7 @@ Updated version of original python-written RoTrade, now with new features and wr
 
 ## FEATURES
 
-<ins>Automated Trade Ad Poster:</ins>
+<ins>**Automated Trade Ad Poster:**</ins>
 - Automatically sends trades on ``Rolimons.com`` at user configured intervals.
 - Configure your trade ad in ``MENU --> TRADE AD POSTER``
 
